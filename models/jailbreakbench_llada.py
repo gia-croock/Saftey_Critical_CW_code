@@ -338,8 +338,11 @@ def generate_response(vanilla_prompt: str, prompt: str, tokenizer, model, args, 
     )
 
     if args.attack_method == "DIJA":
+        response = tokenizer.batch_decode(output_ids[:, matching_count:], skip_special_tokens=True)[0]
         # Some outputs may carry content after 'assistant\n'; do a hard split
         response = response.split("assistant\n")[0]
+    else:
+        response = tokenizer.batch_decode(output_ids[:, input_ids.shape[1]:], skip_special_tokens=True)[0]
 
     return response
 
