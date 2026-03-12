@@ -133,6 +133,7 @@ def generate(
     pad_positions: Optional[Iterable[int]] = None, # Start offsets relative to suffix (aligned to anchors)
     pad_in_uncond: bool = True,    
     protected_index: Optional[torch.Tensor] = None,
+    spd_k: int = 0,
 ):
     device = next(model.parameters()).device
 
@@ -223,6 +224,7 @@ def generate(
 
     # Evenly distribute total steps across blocks; at least 1 per block
     steps_per_block = max(int(steps) // int(num_blocks), 1)
+    assert spd_k < steps_per_block, f"spd_k ({spd_k}) must be less than steps per block ({steps_per_block})"
 
     accept_ids, refuse_ids = build_cue_id_sets(tokenizer, accept_cues, refuse_cues)
 
@@ -246,7 +248,36 @@ def generate(
             block_end   = max(block_end,   last)
 
         block_mask_index = (x[:, block_start:block_end] == mask_id)
-        num_transfer_tokens = get_num_transfer_tokens(block_mask_index, steps_per_block)
+        if spd_k > 0:   # this is the hybrid ARM - MDM approach with the initial spd_k steps using Sequential Prefix Demasking, then switch to regular block-wise demasking for the remaining steps
+            parallel_steps = steps_per_block - spd_k
+            remaining_mask_count = block_mask_index.sum(dim=1, keepdim=True) - spd_k
+            remaining_mask_count = remaining_mask_count.clamp(min=0)
+
+            prefix_schedule = torch.ones(
+                block_mask_index.size(0), spd_k,
+                device=block_mask_index.device, dtype=torch.int64
+            )
+
+            if parallel_steps > 0:
+                base = remaining_mask_count // parallel_steps
+                remainder = remaining_mask_count % parallel_steps
+                parallel_schedule = (
+                    torch.zeros(
+                        block_mask_index.size(0), parallel_steps,
+                        device=block_mask_index.device, dtype=torch.int64
+                    ) + base
+                )
+                for b in range(block_mask_index.size(0)):
+                    parallel_schedule[b, : remainder[b]] += 1
+            else:
+                parallel_schedule = torch.zeros(
+                    block_mask_index.size(0), 0,
+                    device=block_mask_index.device, dtype=torch.int64
+                )
+
+            num_transfer_tokens = torch.cat([prefix_schedule, parallel_schedule], dim=1)
+        else:
+            num_transfer_tokens = get_num_transfer_tokens(block_mask_index, steps_per_block)
 
         for i in range(steps_per_block):
             if i == injection_step:
@@ -350,13 +381,24 @@ def generate(
             x0 = torch.where(mask_index, x0, x)
             confidence = torch.where(mask_index, conf, -np.inf)
 
-            transfer_index = torch.zeros_like(x, dtype=torch.bool, device=x.device)
-            for j in range(confidence.shape[0]):
-                k = int(num_transfer_tokens[j, i].item())
-                if k <= 0:
-                    continue
-                _, select_index = torch.topk(confidence[j], k=k)
-                transfer_index[j, select_index] = True
+            if spd_k > 0 and i < spd_k:
+                transfer_index = torch.zeros_like(x0, dtype=torch.bool, device=x0.device)
+                for j in range(confidence.shape[0]):
+                    masked_positions = torch.where(mask_index[j])[0]
+                    if len(masked_positions) > 0:
+                        pos = masked_positions[0]
+                        transfer_index[j, pos] = True
+                        if debug_print:
+                            tok = tokenizer.decode([x0[j, pos].item()])
+                            print(f"[SPD step {i}] pos={int(pos)} token='{tok}'", flush=True)
+            else:
+                transfer_index = torch.zeros_like(x, dtype=torch.bool, device=x.device)
+                for j in range(confidence.shape[0]):
+                    k = int(num_transfer_tokens[j, i].item())
+                    if k <= 0:
+                        continue
+                    _, select_index = torch.topk(confidence[j], k=k)
+                    transfer_index[j, select_index] = True
             x[transfer_index] = x0[transfer_index]
 
         unsafe_flag = False
@@ -490,6 +532,7 @@ def generate_llada(
     pad_positions: Optional[Iterable[int]] = None,
     pad_in_uncond: bool = True,
     protected_index: Optional[torch.Tensor] = None,
+    spd_k: int = 0,
 ):
     assert tokenizer is not None, "generate_llada requires a tokenizer (for safety self-check cues and optional injections)."
     return generate(
@@ -524,4 +567,5 @@ def generate_llada(
         pad_positions=pad_positions,
         pad_in_uncond=pad_in_uncond,
         protected_index=protected_index,
+        spd_k=spd_k,
     )

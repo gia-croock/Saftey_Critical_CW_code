@@ -70,6 +70,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--refinement_steps", type=int, default=8)
     parser.add_argument("--remask_ratio", type=float, default=0.9)
     parser.add_argument("--suppression_value", type=float, default=1e6)
+    parser.add_argument(
+        "--spd_k",
+        type=int,
+        default=0,
+        help="Sequential Prefix Demasking: number of prefix tokens to unmask "
+             "left-to-right before parallel demasking. 0 = disabled (default).",
+    )
     parser.add_argument("--fill_all_masks", action="store_true")
     parser.add_argument("--debug_print", action="store_true")
 
@@ -335,6 +342,7 @@ def generate_response(vanilla_prompt: str, prompt: str, tokenizer, model, args, 
         pad_anchors=["Step 1:", "Step 2:", "Step 3:"],
         pad_in_uncond=True,   #####
         protected_index=protected_index,
+        spd_k=args.spd_k,
     )
 
     if args.attack_method == "DIJA":
