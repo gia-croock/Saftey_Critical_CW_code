@@ -16,6 +16,8 @@ import json
 import argparse
 from typing import List, Dict, Any, Optional
 
+# copied these keywords from the fragile guardrail paper 
+
 REFUSAL_KEYWORDS = [
     "I'm sorry",
     "Sorry",
