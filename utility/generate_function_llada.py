@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+import math
 from typing import Iterable, Optional, Tuple
 
 import torch
@@ -112,6 +113,9 @@ def generate(
     random_rate=0.0,
     injection_step=None,
     alpha0: float = 0.3,
+    c: float = 0.12,
+    m: int = 3,
+    ratio: float = 3.0,
     sp_mode: str = "off",         # ["off","logit","hidden"]
     sp_threshold: float = 0.35,
     refinement_steps: int = 8,
@@ -309,13 +313,30 @@ def generate(
                 x0_p = R
             elif remasking == "rate":
                 x0_p = (1 - random_rate) * model_confidence + random_rate * R
-            elif remasking == "adaptive":
+            elif remasking == "adaptive": # stochastic anealing original
                 alpha = torch.clamp(torch.tensor(alpha0, device=x0.device, dtype=model_confidence.dtype), 0.0, 1.0)
                 x0_p = (1 - alpha) * model_confidence + alpha * R
             elif remasking == "adaptive_step":
                 frac = 1.0 - (i / (steps_per_block - 1)) if steps_per_block > 1 else 1.0
                 alpha = torch.clamp(torch.tensor(alpha0 * frac, device=x0.device, dtype=model_confidence.dtype), 0.0, 1.0)
                 x0_p = (1 - alpha) * model_confidence + alpha * R
+
+            elif remasking == "adaptive_step_exp": # custom implementation of stochastic anealing that distributes randomness more strategically 
+
+                # Step 1: Exponential decay instead of linear
+                alpha_n = alpha0 * math.exp(-c * i)
+                # Step 2: Redistribute across positions (budget-preserving)
+                L = x0.shape[1]
+                alpha_low = (L * alpha_n) / ((L - m) + m * ratio)
+                alpha_high = alpha_low * ratio
+                position_indices = torch.arange(L, device=x0.device)
+                alpha_n_i = torch.where(
+                    position_indices <= m,
+                    torch.tensor(alpha_high, device=x0.device, dtype=model_confidence.dtype),
+                    torch.tensor(alpha_low, device=x0.device, dtype=model_confidence.dtype),
+                )
+                # Step 3: Apply per-position alpha
+                x0_p = (1 - alpha_n_i) * model_confidence + alpha_n_i * R
             else:
                 raise NotImplementedError(remasking)
 
@@ -452,6 +473,9 @@ def generate_llada(
     random_rate: float = 0.0,
     injection_step: Optional[int] = None,
     alpha0: float = 0.3,
+    c: float = 0.12,
+    m: int = 3,
+    ratio: float = 3.0,
     sp_mode: str = "off",
     sp_threshold: float = 0.35,
     refinement_steps: int = 8,
@@ -482,6 +506,9 @@ def generate_llada(
         random_rate=random_rate,
         injection_step=injection_step,
         alpha0=alpha0,
+        c=c,
+        m=m,
+        ratio=ratio,
         sp_mode=sp_mode,
         sp_threshold=sp_threshold,
         refinement_steps=refinement_steps,

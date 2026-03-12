@@ -57,10 +57,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--temperature", type=float, default=DEFAULT_TEMPERATURE)
     parser.add_argument("--cfg_scale", type=float, default=0.1)
     parser.add_argument("--remasking", type=str, default="low_confidence",
-                        choices=["low_confidence", "random", "rate", "adaptive", "adaptive_step"])
+                        choices=["low_confidence", "random", "rate", "adaptive", "adaptive_step", "adaptive_step_exp"])
     parser.add_argument("--random_rate", type=float, default=0.0)
     parser.add_argument("--injection_step", type=int, default=None)
-    parser.add_argument("--alpha0", type=float, default=0.3)
+    parser.add_argument("--alpha0", type=float, default=0.6)
+    parser.add_argument("--c", type=float, default=0.12, help="Exponential decay rate for adaptive_step remasking")
+    parser.add_argument("--m", type=int, default=3, help="Number of safety-critical positions for adaptive_step remasking")
+    parser.add_argument("--ratio", type=float, default=3.0, help="Critical vs non-critical alpha multiplier for adaptive_step remasking")
 
     parser.add_argument("--sp_mode", type=str, default="off", choices=["off", "logit", "hidden"])
     parser.add_argument("--sp_threshold", type=float, default=0.35)
@@ -316,6 +319,9 @@ def generate_response(vanilla_prompt: str, prompt: str, tokenizer, model, args, 
         random_rate=args.random_rate,
         injection_step=args.injection_step,
         alpha0=args.alpha0,
+        c=args.c,
+        m=args.m,
+        ratio=args.ratio,
         sp_mode=args.sp_mode,
         sp_threshold=args.sp_threshold,
         refinement_steps=args.refinement_steps,
@@ -331,7 +337,6 @@ def generate_response(vanilla_prompt: str, prompt: str, tokenizer, model, args, 
         protected_index=protected_index,
     )
 
-    response = tokenizer.batch_decode(output_ids[:, matching_count:], skip_special_tokens=True)[0]
     if args.attack_method == "DIJA":
         # Some outputs may carry content after 'assistant\n'; do a hard split
         response = response.split("assistant\n")[0]
