@@ -1,9 +1,7 @@
 /DLLM_safety/
 .vscode-server/
 .cache/
-*.json
 __pycache__/
-*.log
 papers/context nesting.pdf
 papers/diffuguard.pdf
 papers/dija.pdf
