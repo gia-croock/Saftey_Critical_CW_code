@@ -2,7 +2,7 @@
 #PBS -l walltime=06:00:00
 #PBS -l select=1:ncpus=4:ngpus=1:mem=64gb
 #PBS -N final_harmless_context_nesting_gen
-#PBS -o eval_logs/final_harmless_context_nesting_gen.log
+#PBS -o eval_logs/harmless_context_nesting_gen.log
 #PBS -j oe
 
 # Runs Context Nesting on BENIGN prompts across all strategies + defenses.
@@ -22,7 +22,9 @@ PPL_MODEL="$HOME/hf_models/Llama-3.1-8B"
 BENIGN_CSV="$HOME/DiffuGuard/data/pre_refined_prompt/benign_prompts.csv"
 BENIGN_REFINED="$HOME/DiffuGuard/data/refined_prompt_data/harmless_context_nesting_refined.json"
 
-mkdir -p results eval_logs
+BASEDIR="results/harmless_context_nesting"
+
+mkdir -p eval_logs
 
 # ==============================================================
 # Step 0: Run context nesting refiner on benign prompts
@@ -44,31 +46,35 @@ fi
 # ==============================================================
 # no_defense
 # ==============================================================
+EXPDIR="${BASEDIR}/no_defense"
+mkdir -p "$EXPDIR"
 echo ""
 echo "--- Strategy: no_defense ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_no_defense.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.0 \
     --steps 32 \
     --cfg_scale 0.0 \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_no_defense.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
 # fully_random
 # ==============================================================
+EXPDIR="${BASEDIR}/fully_random"
+mkdir -p "$EXPDIR"
 echo ""
 echo "--- Strategy: fully_random ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_fully_random.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.0 \
@@ -76,18 +82,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --cfg_scale 0.0 \
     --remasking random \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_fully_random.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
 # stochastic_annealing
 # ==============================================================
+EXPDIR="${BASEDIR}/stochastic_annealing"
+mkdir -p "$EXPDIR"
 echo ""
 echo "--- Strategy: stochastic_annealing ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_stochastic_anealing.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.0 \
@@ -96,18 +104,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --remasking adaptive \
     --alpha0 0.6 \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_stochastic_anealing.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
 # stochastic_annealing_exp
 # ==============================================================
+EXPDIR="${BASEDIR}/stochastic_annealing_exp"
+mkdir -p "$EXPDIR"
 echo ""
 echo "--- Strategy: stochastic_annealing_exp ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_stochastic_anealing_exp.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.0 \
@@ -119,18 +129,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --m 3 \
     --ratio 3.0 \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_stochastic_anealing_exp.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# fully_random (defense)
+# fully_random (block level audit)
 # ==============================================================
+EXPDIR="${BASEDIR}/fully_random_block_audit"
+mkdir -p "$EXPDIR"
 echo ""
-echo "--- Strategy: fully_random (defense) ---"
+echo "--- Strategy: fully_random (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_fully_random_defense.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.2 \
     --refinement_steps 8 \
@@ -141,18 +153,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --cfg_scale 0.0 \
     --remasking random \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_fully_random_defense.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# stochastic_annealing (defense)
+# stochastic_annealing (block level audit)
 # ==============================================================
+EXPDIR="${BASEDIR}/stochastic_annealing_block_audit"
+mkdir -p "$EXPDIR"
 echo ""
-echo "--- Strategy: stochastic_annealing (defense) ---"
+echo "--- Strategy: stochastic_annealing (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_stochastic_anealing_defense.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.2 \
     --refinement_steps 8 \
@@ -164,18 +178,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --remasking adaptive \
     --alpha0 0.6 \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_stochastic_anealing_defense.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# greedy (defense)
+# greedy (block level audit)
 # ==============================================================
+EXPDIR="${BASEDIR}/greedy_block_audit"
+mkdir -p "$EXPDIR"
 echo ""
-echo "--- Strategy: greedy (defense) ---"
+echo "--- Strategy: greedy (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_greedy_defense.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.2 \
     --refinement_steps 8 \
@@ -185,18 +201,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --steps 32 \
     --cfg_scale 0.0 \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_greedy_defense.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# stochastic_annealing_exp (defense)
+# stochastic_annealing_exp (block level audit)
 # ==============================================================
+EXPDIR="${BASEDIR}/stochastic_annealing_exp_block_audit"
+mkdir -p "$EXPDIR"
 echo ""
-echo "--- Strategy: stochastic_annealing_exp (defense) ---"
+echo "--- Strategy: stochastic_annealing_exp (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_stochastic_anealing_exp_defense.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.2 \
     --refinement_steps 8 \
@@ -211,18 +229,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --m 3 \
     --ratio 3.0 \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_stochastic_anealing_exp_defense.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
 # spd (no block audit)
 # ==============================================================
+EXPDIR="${BASEDIR}/spd"
+mkdir -p "$EXPDIR"
 echo ""
 echo "--- Strategy: spd ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_spd.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
@@ -230,18 +250,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --cfg_scale 0.0 \
     --spd_k 5 \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_spd.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
 # spd (with block audit)
 # ==============================================================
+EXPDIR="${BASEDIR}/spd_block_audit"
+mkdir -p "$EXPDIR"
 echo ""
-echo "--- Strategy: spd (defense) ---"
+echo "--- Strategy: spd (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_spd_defense.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.2 \
     --refinement_steps 8 \
@@ -252,18 +274,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --cfg_scale 0.0 \
     --spd_k 5 \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_spd_defense.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
 # spd + self-reminder (no block audit)
 # ==============================================================
+EXPDIR="${BASEDIR}/spd_reminder"
+mkdir -p "$EXPDIR"
 echo ""
 echo "--- Strategy: spd + self-reminder ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_spd_reminder.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
@@ -272,18 +296,20 @@ $PYTHON models/jailbreakbench_llada.py \
     --spd_k 5 \
     --defense_method self-reminder \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_spd_reminder.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
 # spd + self-reminder (with block audit)
 # ==============================================================
+EXPDIR="${BASEDIR}/spd_reminder_block_audit"
+mkdir -p "$EXPDIR"
 echo ""
-echo "--- Strategy: spd + self-reminder (defense) ---"
+echo "--- Strategy: spd + self-reminder (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${BENIGN_REFINED}" \
-    --output_json "results/out_harmless_context_nesting_spd_reminder_defense.json" \
+    --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.2 \
     --refinement_steps 8 \
@@ -295,9 +321,9 @@ $PYTHON models/jailbreakbench_llada.py \
     --spd_k 5 \
     --defense_method self-reminder \
     --debug_print
-echo "Done: results/out_harmless_context_nesting_spd_reminder_defense.json"
+echo "Done: ${EXPDIR}/generation.json"
 
 echo ""
 echo "=============================================="
-echo "Generation done. Run final_harmless_context_nesting_eval.sh next."
+echo "Generation done. Run harmless_context_nesting_eval.sh next."
 echo "=============================================="

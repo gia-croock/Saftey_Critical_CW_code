@@ -136,11 +136,18 @@ def main():
         "--batch_size", type=int, default=8,
         help="Batch size for inference. Reduce to 4 or 2 if you get OOM (default: 8)",
     )
+    parser.add_argument(
+        "--output", default=None,
+        help="Explicit output path. If omitted, appends '_harmbench_eval' to input filename.",
+    )
     args = parser.parse_args()
 
     # Derive output path (e.g. out_DIJA_no_defense_harmbench_eval.json)
-    base = args.input
-    output_path = (base[:-5] if base.endswith(".json") else base) + "_harmbench_eval.json"
+    if args.output:
+        output_path = args.output
+    else:
+        base = args.input
+        output_path = (base[:-5] if base.endswith(".json") else base) + "_harmbench_eval.json"
 
     # ---- Load data ----
     data = load_json(args.input)

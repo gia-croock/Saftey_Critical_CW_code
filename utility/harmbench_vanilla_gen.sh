@@ -2,7 +2,7 @@
 #PBS -l walltime=06:00:00
 #PBS -l select=1:ncpus=4:ngpus=1:mem=64gb
 #PBS -N final_harmbench_vanilla_gen
-#PBS -o eval_logs/final_harmbench_vanilla_gen.log
+#PBS -o eval_logs/vanilla_baseline_gen.log
 #PBS -j oe
 
 # Generates LLaDA responses for vanilla HarmBench prompts (no defense baseline).
@@ -18,7 +18,8 @@ MODEL_PATH="$HOME/DiffuGuard/hf_models/LLaDA-8B-Instruct"
 RAW_CSV="$HOME/DiffuGuard/data/pre_refined_prompt/harmbench.csv"
 HARMBENCH_JSON="$HOME/DiffuGuard/data/pre_refined_prompt/harmbench.json"
 
-mkdir -p results
+OUTDIR="results/vanilla/baseline"
+mkdir -p "$OUTDIR"
 
 echo "=============================================="
 echo "HarmBench - Generation"
@@ -43,12 +44,12 @@ $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
     --attack_prompt "${HARMBENCH_JSON}" \
-    --output_json "results/out_harmbench_vanilla.json" \
+    --output_json "${OUTDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --debug_print
 
 echo ""
 echo "=============================================="
-echo "Generation done. Run final_harmbench_eval.sh next."
+echo "Generation done. Run harmbench_vanilla_eval.sh next."
 echo "=============================================="

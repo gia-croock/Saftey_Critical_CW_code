@@ -2,12 +2,12 @@
 #PBS -l walltime=04:00:00
 #PBS -l select=1:ncpus=4:ngpus=1:mem=64gb
 #PBS -N final_harmless_context_nesting_eval
-#PBS -o eval_logs/final_harmless_context_nesting_eval.log
+#PBS -o eval_logs/harmless_context_nesting_eval.log
 #PBS -j oe
 
 # Evaluates harmless context nesting outputs (PPL + SAR only).
 # No ASR evaluation — these are benign prompts.
-# Run final_harmless_context_nesting_gen.sh first.
+# Run harmless_context_nesting_gen.sh first.
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0
@@ -18,24 +18,25 @@ cd ~/DiffuGuard
 PYTHON=$(which python)
 PPL_MODEL="$HOME/hf_models/Llama-3.1-8B"
 
-mkdir -p eval_logs
+BASEDIR="results/harmless_context_nesting"
 
 for STRATEGY in \
     "no_defense" \
     "fully_random" \
-    "stochastic_anealing" \
-    "stochastic_anealing_exp" \
-    "fully_random_defense" \
-    "stochastic_anealing_defense" \
-    "greedy_defense" \
-    "stochastic_anealing_exp_defense" \
+    "stochastic_annealing" \
+    "stochastic_annealing_exp" \
+    "fully_random_block_audit" \
+    "stochastic_annealing_block_audit" \
+    "greedy_block_audit" \
+    "stochastic_annealing_exp_block_audit" \
     "spd" \
-    "spd_defense" \
+    "spd_block_audit" \
     "spd_reminder" \
-    "spd_reminder_defense"
+    "spd_reminder_block_audit"
 do
-    GEN_JSON="results/out_harmless_context_nesting_${STRATEGY}.json"
-    RESULTS_JSON="results/harmless_context_nesting_${STRATEGY}_results.json"
+    EXPDIR="${BASEDIR}/${STRATEGY}"
+    GEN_JSON="${EXPDIR}/generation.json"
+    RESULTS_JSON="${EXPDIR}/results.json"
 
     echo ""
     echo "=============================================="
