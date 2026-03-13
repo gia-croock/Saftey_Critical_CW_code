@@ -1,0 +1,299 @@
+[
+  {
+    "attack": "context_nesting",
+    "experiment": "fully_random",
+    "ASR_e": 50.64,
+    "ASR_k": 82.55,
+    "PPL": 22.29,
+    "SAR": 45.53,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "fully_random_block_audit",
+    "ASR_e": 53.62,
+    "ASR_k": 80.43,
+    "PPL": 84.82,
+    "SAR": 13.62,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "greedy_block_audit",
+    "ASR_e": 74.04,
+    "ASR_k": 85.96,
+    "PPL": 75.62,
+    "SAR": 23.4,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "no_defense",
+    "ASR_e": 68.51,
+    "ASR_k": 89.36,
+    "PPL": 12.21,
+    "SAR": 66.81,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "spd",
+    "ASR_e": 73.62,
+    "ASR_k": 89.79,
+    "PPL": 14.05,
+    "SAR": 63.83,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "spd_block_audit",
+    "ASR_e": 71.06,
+    "ASR_k": 92.77,
+    "PPL": 76.68,
+    "SAR": 20.85,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "spd_reminder",
+    "ASR_e": 42.55,
+    "ASR_k": 65.11,
+    "PPL": 22.91,
+    "SAR": 34.04,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "spd_reminder_block_audit",
+    "ASR_e": 48.51,
+    "ASR_k": 68.09,
+    "PPL": 121.04,
+    "SAR": 16.17,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "stochastic_annealing",
+    "ASR_e": 58.72,
+    "ASR_k": 85.11,
+    "PPL": 1730.54,
+    "SAR": 58.3,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "stochastic_annealing_block_audit",
+    "ASR_e": 58.3,
+    "ASR_k": 85.96,
+    "PPL": 65.63,
+    "SAR": 13.62,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "stochastic_annealing_exp",
+    "ASR_e": 45.11,
+    "ASR_k": 83.4,
+    "PPL": 17.73,
+    "SAR": 41.7,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "stochastic_annealing_exp_block_audit",
+    "ASR_e": 48.94,
+    "ASR_k": 80.85,
+    "PPL": 84.93,
+    "SAR": 11.91,
+    "num_items": 235
+  },
+  {
+    "attack": "dija",
+    "experiment": "fully_random",
+    "ASR_e": 82.55,
+    "ASR_k": 93.19,
+    "PPL": 14.14,
+    "SAR": null,
+    "num_items": 235
+  },
+  {
+    "attack": "dija",
+    "experiment": "fully_random_block_audit",
+    "ASR_e": 27.23,
+    "ASR_k": 67.66,
+    "PPL": 34.96,
+    "SAR": null,
+    "num_items": 235
+  },
+  {
+    "attack": "dija",
+    "experiment": "greedy_block_audit",
+    "ASR_e": 26.81,
+    "ASR_k": 72.34,
+    "PPL": 30.24,
+    "SAR": null,
+    "num_items": 235
+  },
+  {
+    "attack": "dija",
+    "experiment": "no_defense",
+    "ASR_e": 76.6,
+    "ASR_k": 96.6,
+    "PPL": 11.89,
+    "SAR": null,
+    "num_items": 235
+  },
+  {
+    "attack": "dija",
+    "experiment": "stochastic_annealing",
+    "ASR_e": 76.17,
+    "ASR_k": 95.32,
+    "PPL": 12.41,
+    "SAR": null,
+    "num_items": 235
+  },
+  {
+    "attack": "dija",
+    "experiment": "stochastic_annealing_block_audit",
+    "ASR_e": 28.51,
+    "ASR_k": 71.06,
+    "PPL": 33.3,
+    "SAR": null,
+    "num_items": 235
+  },
+  {
+    "attack": "dija",
+    "experiment": "stochastic_annealing_exp",
+    "ASR_e": 74.89,
+    "ASR_k": 95.32,
+    "PPL": 12.44,
+    "SAR": null,
+    "num_items": 235
+  },
+  {
+    "attack": "dija",
+    "experiment": "stochastic_annealing_exp_block_audit",
+    "ASR_e": 27.23,
+    "ASR_k": 66.81,
+    "PPL": 38.35,
+    "SAR": null,
+    "num_items": 235
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "fully_random",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 14.4,
+    "SAR": 62.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "fully_random_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 47.56,
+    "SAR": 21.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "greedy_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 68.6,
+    "SAR": 7.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "no_defense",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 15.7,
+    "SAR": 67.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "spd",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 16.52,
+    "SAR": 62.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "spd_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 378.32,
+    "SAR": 18.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "spd_reminder",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 16.27,
+    "SAR": 71.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "spd_reminder_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 69.27,
+    "SAR": 14.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "stochastic_annealing",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 16.78,
+    "SAR": 63.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "stochastic_annealing_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 199.81,
+    "SAR": 11.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "stochastic_annealing_exp",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 17.9,
+    "SAR": 60.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_context_nesting",
+    "experiment": "stochastic_annealing_exp_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 70.05,
+    "SAR": 13.0,
+    "num_items": 100
+  },
+  {
+    "attack": "vanilla",
+    "experiment": "baseline",
+    "ASR_e": 3.83,
+    "ASR_k": 7.23,
+    "PPL": 15.16,
+    "SAR": null,
+    "num_items": 235
+  }
+]
