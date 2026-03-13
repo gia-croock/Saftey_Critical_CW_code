@@ -2,11 +2,17 @@
 .vscode-server/
 .cache/
 *.json
-.vscode-server/
-.cache/
 __pycache__/
 *.log
-.vscode-server/
-.cache/
-__pycache__/
-*.log
+
+# HuggingFace models (large, not tracked in git)
+hf_models/LLaDA-8B-Instruct/
+hf_models/Qwen2.5-7B-Instruct/
+DiffuCoder-7B-Instruct/
+DiffuCoder-7B-cpGRPO/
+Dream-Coder-v0-Instruct-7B/
+Dream-v0-Instruct-7B/
+DreamOn-v0-7B/
+HarmBench-Llama-2-13b-cls/
+LLaDA-1.5/
+MMaDA-8B-MixCoT/
