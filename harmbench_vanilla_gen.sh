@@ -40,18 +40,17 @@ PYEOF
 
 echo ""
 echo "--- Running: vanilla ---"
+# baseline: direct prompt, no attack, no defense; code defaults for temp/steps
+# DiffuGuard Table 5 uses temp=0.5, steps=64; CN paper uses steps=32.
+# Vanilla baseline uses code defaults to represent unmodified model behaviour.
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
-    --attack_method zeroshot \                      # baseline — direct prompt, no attack transformation
+    --attack_method zeroshot \
     --attack_prompt "${HARMBENCH_JSON}" \
     --output_json "${OUTDIR}/generation.json" \
-    --sp_mode off \                                 # no defense (vanilla baseline)
-    --mask_counts 0 \                               # not in papers — code-specific, disables extra masking
+    --sp_mode off \
+    --mask_counts 0 \
     --debug_print
-    # NOTE: no --temperature or --steps specified → uses code defaults.
-    # DiffuGuard Table 5 uses temp=0.5, steps=64 for LLaDA;
-    # Context Nesting paper uses steps=32. Vanilla baseline intentionally
-    # uses code defaults to represent unmodified model behaviour.
 
 echo ""
 echo "=============================================="
