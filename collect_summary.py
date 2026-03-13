@@ -49,7 +49,7 @@ def extract_metrics(results_path):
 
     # SAR: look for sar_evaluation field
     sar_verdicts = [
-        item.get("sar_evaluation", {}).get("is_refusal")
+        item.get("sar_evaluation", {}).get("adherent")
         for item in data
         if "sar_evaluation" in item
     ]
