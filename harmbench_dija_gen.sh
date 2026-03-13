@@ -45,13 +45,13 @@
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0
-source ~/DiffuGuard/venv/bin/activate
+source ~/Saftey_Critical_CW_code/venv/bin/activate
 
-cd ~/DiffuGuard
+cd ~/Saftey_Critical_CW_code
 
 PYTHON=$(which python)
-MODEL_PATH="$HOME/DiffuGuard/hf_models/LLaDA-8B-Instruct"
-REFINED_PROMPTS="$HOME/DiffuGuard/data/refined_prompt_data/harmbench_refined.json"
+MODEL_PATH="$HOME/Saftey_Critical_CW_code/hf_models/LLaDA-8B-Instruct"
+REFINED_PROMPTS="$HOME/Saftey_Critical_CW_code/data/refined_prompt_data/harmbench_refined.json"
 
 BASEDIR="results/dija"
 

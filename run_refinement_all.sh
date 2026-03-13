@@ -9,12 +9,12 @@
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0
-source ~/DiffuGuard/venv/bin/activate
+source ~/Saftey_Critical_CW_code/venv/bin/activate
 
-cd ~/DiffuGuard
+cd ~/Saftey_Critical_CW_code
 
 PYTHON=$(which python)
-QWEN_MODEL="$HOME/DiffuGuard/hf_models/Qwen2.5-7B-Instruct"
+QWEN_MODEL="$HOME/Saftey_Critical_CW_code/hf_models/Qwen2.5-7B-Instruct"
 TEMPLATE="refine_prompt/redteam_prompt_template.txt"
 
 mkdir -p data/refined_prompt_data

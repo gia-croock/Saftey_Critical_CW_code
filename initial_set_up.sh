@@ -8,12 +8,12 @@ module load Python/3.11.3-GCCcore-12.3.0
 
 
 # Create venv if not already created
-if [ ! -d ~/DiffuGuard/venv ]; then
-  cd ~/DiffuGuard
+if [ ! -d ~/Saftey_Critical_CW_code/venv ]; then
+  cd ~/Saftey_Critical_CW_code
   python -m venv venv
 fi
 
-source ~/DiffuGuard/venv/bin/activate
+source ~/Saftey_Critical_CW_code/venv/bin/activate
 
 # Filter out packages that break on cluster:
 #   av, decord        - need ffmpeg/system libs, not needed for core experiments
@@ -21,7 +21,7 @@ source ~/DiffuGuard/venv/bin/activate
 #   triton            - cluster provides this or not needed
 #   en_core_web_sm    - URL-based install, do separately
 #   yt-dlp            - not needed
-grep -v "^av==" ~/DiffuGuard/requirements.txt \
+grep -v "^av==" ~/Saftey_Critical_CW_code/requirements.txt \
   | grep -v "^decord==" \
   | grep -v "^nvidia-" \
   | grep -v "^triton==" \

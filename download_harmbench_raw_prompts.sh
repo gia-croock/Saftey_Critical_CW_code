@@ -5,9 +5,9 @@
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0
-source ~/DiffuGuard/venv/bin/activate
+source ~/Saftey_Critical_CW_code/venv/bin/activate
 
-cd ~/DiffuGuard
+cd ~/Saftey_Critical_CW_code
 mkdir -p data/pre_refined_prompt
 
 echo "=============================================="

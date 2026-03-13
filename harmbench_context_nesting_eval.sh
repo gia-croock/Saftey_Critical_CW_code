@@ -11,9 +11,9 @@
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0
-source ~/DiffuGuard/venv/bin/activate
+source ~/Saftey_Critical_CW_code/venv/bin/activate
 
-cd ~/DiffuGuard
+cd ~/Saftey_Critical_CW_code
 
 PYTHON=$(which python)
 HARMBENCH_MODEL="$HOME/hf_models/HarmBench-Llama-2-13b-cls"

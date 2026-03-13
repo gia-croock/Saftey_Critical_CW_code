@@ -36,15 +36,15 @@
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0
-source ~/DiffuGuard/venv/bin/activate
+source ~/Saftey_Critical_CW_code/venv/bin/activate
 
-cd ~/DiffuGuard
+cd ~/Saftey_Critical_CW_code
 
 PYTHON=$(which python)
-MODEL_PATH="$HOME/DiffuGuard/hf_models/LLaDA-8B-Instruct"
+MODEL_PATH="$HOME/Saftey_Critical_CW_code/hf_models/LLaDA-8B-Instruct"
 PPL_MODEL="$HOME/hf_models/Llama-3.1-8B"
-BENIGN_CSV="$HOME/DiffuGuard/data/pre_refined_prompt/benign_prompts.csv"
-BENIGN_REFINED="$HOME/DiffuGuard/data/refined_prompt_data/harmless_context_nesting_refined.json"
+BENIGN_CSV="$HOME/Saftey_Critical_CW_code/data/pre_refined_prompt/benign_prompts.csv"
+BENIGN_REFINED="$HOME/Saftey_Critical_CW_code/data/refined_prompt_data/harmless_context_nesting_refined.json"
 
 BASEDIR="results/harmless_context_nesting"
 

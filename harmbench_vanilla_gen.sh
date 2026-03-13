@@ -9,14 +9,14 @@
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0
-source ~/DiffuGuard/venv/bin/activate
+source ~/Saftey_Critical_CW_code/venv/bin/activate
 
-cd ~/DiffuGuard
+cd ~/Saftey_Critical_CW_code
 
 PYTHON=$(which python)
-MODEL_PATH="$HOME/DiffuGuard/hf_models/LLaDA-8B-Instruct"
-RAW_CSV="$HOME/DiffuGuard/data/pre_refined_prompt/harmbench.csv"
-HARMBENCH_JSON="$HOME/DiffuGuard/data/pre_refined_prompt/harmbench.json"
+MODEL_PATH="$HOME/Saftey_Critical_CW_code/hf_models/LLaDA-8B-Instruct"
+RAW_CSV="$HOME/Saftey_Critical_CW_code/data/pre_refined_prompt/harmbench.csv"
+HARMBENCH_JSON="$HOME/Saftey_Critical_CW_code/data/pre_refined_prompt/harmbench.json"
 
 OUTDIR="results/vanilla/baseline"
 mkdir -p "$OUTDIR"
