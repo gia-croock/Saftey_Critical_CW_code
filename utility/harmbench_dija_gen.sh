@@ -9,6 +9,39 @@
 # Requires: data/refined_prompt_data/harmbench_refined.json
 #   (generate with run_refinement_all.sh if not already done)
 # Evaluation is in harmbench_dija_eval.sh.
+#
+# ── Parameter justification key ──────────────────────────────────────────
+# Sources: [DIJA] = DIJA paper, [DG] = DiffuGuard paper, [CN] = Context Nesting paper
+#
+# DIJA-specific params:
+#   --attack_method DIJA          : [DIJA] the DIJA interleaved mask-text attack (Sec 3.2)
+#   --fill_all_masks              : [DIJA] fills all [MASK] positions — core to DIJA design;
+#                                   forces model to complete all masked spans
+#
+# Shared generation params:
+#   (no --temperature, --steps)   : uses code defaults in most experiments;
+#                                   [DIJA] paper does not specify these for LLaDA;
+#                                   [DG] Table 5 uses temp=0.5, steps=64;
+#                                   [CN] Sec 5.1 uses steps=32
+#   --temperature 0.0 (greedy_block_audit only): explicit greedy decoding for that config
+#
+# Remasking strategies: same justifications as context_nesting_gen.sh
+#   (no --remasking flag)         : default — greedy low-confidence remasking
+#   --remasking random            : [DG] fully random (Eq. 6)
+#   --remasking adaptive          : [DG] stochastic annealing (Eq. 7-8)
+#   --remasking adaptive_step_exp : not in papers — custom exponential decay variant
+#
+# Stochastic annealing params:
+#   --alpha0 0.6 (adaptive)       : differs from [DG] default (α₀=0.3, Table 6);
+#                                   0.6 tested in ablation (Table 7)
+#   --alpha0 0.9, --c 0.12, --m 3, --ratio 3.0 : not in papers — custom exp schedule
+#
+# Block-level audit params (sp_mode=hidden):
+#   --sp_threshold 0.2            : differs from [DG] default (λ=0.1, Table 6);
+#                                   0.2 tested in ablation (Table 8)
+#   --refinement_steps 8          : [DG] same as Table 6 (extra_steps=8)
+#   --remask_ratio 0.9            : [DG] same as Table 6 (γ=0.9)
+# ─────────────────────────────────────────────────────────────────────────
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0

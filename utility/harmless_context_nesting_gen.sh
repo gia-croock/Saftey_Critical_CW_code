@@ -9,6 +9,30 @@
 # Purpose: measure SAR and PPL on harmless inputs as a utility baseline.
 # No ASR evaluation (these are not harmful prompts).
 # Requires: data/pre_refined_prompt/benign_prompts.csv
+#
+# ── Parameter justification key ──────────────────────────────────────────
+# All params identical to harmbench_context_nesting_gen.sh (same configs,
+# benign prompts instead of harmful). See that file for full justifications.
+# Sources: [CN] = Context Nesting paper, [DG] = DiffuGuard paper
+#
+# Key params:
+#   --temperature 0.0 (non-SPD)   : greedy decoding — not in [CN]; deterministic eval
+#   --temperature 0.5 (SPD)       : [DG] same as Table 5 (LLaDA generation temp)
+#   --steps 32                    : [CN] same as paper (Sec 5.1); differs from [DG] (64)
+#   --cfg_scale 0.0               : [DG] same as Table 5 (cfg_scale=0 for LLaDA)
+#   --mask_counts 0               : not in papers — code-specific
+#   --remasking random            : [DG] Eq. 6
+#   --remasking adaptive          : [DG] Eq. 7-8
+#   --remasking adaptive_step_exp : not in papers — custom exponential variant
+#   --alpha0 0.6 (adaptive)       : differs from [DG] default (0.3); ablation value (Table 7)
+#   --alpha0 0.9 (exp variant)    : not in papers — custom
+#   --c 0.12, --m 3, --ratio 3.0 : not in papers — custom exp schedule
+#   --sp_threshold 0.2            : differs from [DG] default (0.1); ablation value (Table 8)
+#   --refinement_steps 8          : [DG] same as Table 6
+#   --remask_ratio 0.9            : [DG] same as Table 6
+#   --spd_k 5                     : not in [CN]/[DG]/[DIJA] — unjustified from these papers
+#   --defense_method self-reminder: [DG] Sec A.4; Xie et al. 2023
+# ─────────────────────────────────────────────────────────────────────────
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0

@@ -11,6 +11,46 @@
 # Requires: data/refined_prompt_data/harmbench_context_nesting.json
 #   (generate with run_refinement_all.sh if not already done)
 # Evaluation is in harmbench_context_nesting_eval.sh.
+#
+# ── Parameter justification key ──────────────────────────────────────────
+# Sources: [CN] = Context Nesting paper, [DG] = DiffuGuard paper, [DIJA] = DIJA paper
+#
+# Shared generation params:
+#   --attack_method zeroshot      : [CN] context nesting embeds attack in prompt template,
+#                                   no iterative optimisation (Sec 4.2)
+#   --temperature 0.0             : not in [CN] — greedy decoding for deterministic eval;
+#                                   [DG] Table 5 uses 0.5 for LLaDA main experiments
+#   --steps 32                    : [CN] same as paper (Sec 5.1: "32 denoising steps");
+#                                   differs from [DG] Table 5 which uses 64
+#   --cfg_scale 0.0               : [DG] same as Table 5 (cfg_scale=0 for LLaDA)
+#   --mask_counts 0               : not in papers — code-specific, disables extra masking
+#
+# Remasking strategies:
+#   (no --remasking flag)         : default — greedy low-confidence remasking (LLaDA default)
+#   --remasking random            : [DG] fully random remasking (Eq. 6)
+#   --remasking adaptive          : [DG] stochastic annealing remasking (Eq. 7-8)
+#   --remasking adaptive_step_exp : not in papers — custom exponential decay variant
+#
+# Stochastic annealing params:
+#   --alpha0 0.6 (adaptive)       : differs from [DG] default (α₀=0.3, Table 6);
+#                                   0.6 tested in ablation (Table 7) — stronger safety
+#                                   at moderate quality cost
+#   --alpha0 0.9 (exp variant)    : not in papers — custom high initial randomness
+#   --c 0.12, --m 3, --ratio 3.0 : not in papers — custom exponential schedule params
+#
+# Block-level audit params (sp_mode=hidden):
+#   --sp_threshold 0.2            : differs from [DG] default (λ=0.1, Table 6);
+#                                   0.2 tested in ablation (Table 8) — less aggressive
+#                                   threshold, better utility preservation
+#   --refinement_steps 8          : [DG] same as Table 6 (extra_steps=8)
+#   --remask_ratio 0.9            : [DG] same as Table 6 (γ=0.9)
+#
+# SPD experiments:
+#   --temperature 0.5             : [DG] same as Table 5 (LLaDA generation temp);
+#                                   required for SPD sampling diversity
+#   --spd_k 5                     : not in [CN]/[DG]/[DIJA] — unjustified from these papers
+#   --defense_method self-reminder: [DG] Sec A.4; originally from Xie et al. 2023
+# ─────────────────────────────────────────────────────────────────────────
 
 module load tools/prod
 module load Python/3.11.3-GCCcore-12.3.0
