@@ -4,6 +4,9 @@
 *.json
 __pycache__/
 *.log
+papers/context nesting.pdf
+papers/diffuguard.pdf
+papers/dija.pdf
 
 # HuggingFace models (large, not tracked in git)
 hf_models/LLaDA-8B-Instruct/
@@ -16,7 +19,3 @@ DreamOn-v0-7B/
 HarmBench-Llama-2-13b-cls/
 LLaDA-1.5/
 MMaDA-8B-MixCoT/
-papers/context nesting.pdf
-papers/diffuguard.pdf
-
-papers/dija.pdf

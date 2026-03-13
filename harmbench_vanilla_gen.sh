@@ -1,0 +1,59 @@
+#!/bin/bash
+#PBS -l walltime=06:00:00
+#PBS -l select=1:ncpus=4:ngpus=1:mem=64gb
+#PBS -N final_harmbench_vanilla_gen
+#PBS -o eval_logs/vanilla_baseline_gen.log
+#PBS -j oe
+
+# Generates LLaDA responses for vanilla HarmBench prompts (no defense baseline).
+
+module load tools/prod
+module load Python/3.11.3-GCCcore-12.3.0
+source ~/DiffuGuard/venv/bin/activate
+
+cd ~/DiffuGuard
+
+PYTHON=$(which python)
+MODEL_PATH="$HOME/DiffuGuard/hf_models/LLaDA-8B-Instruct"
+RAW_CSV="$HOME/DiffuGuard/data/pre_refined_prompt/harmbench.csv"
+HARMBENCH_JSON="$HOME/DiffuGuard/data/pre_refined_prompt/harmbench.json"
+
+OUTDIR="results/vanilla/baseline"
+mkdir -p "$OUTDIR"
+
+echo "=============================================="
+echo "HarmBench - Generation"
+echo "=============================================="
+
+# Convert harmbench.csv to JSON expected by jailbreakbench_llada.py
+echo "Converting harmbench.csv to JSON..."
+$PYTHON - <<PYEOF
+import pandas as pd
+import json
+
+df = pd.read_csv("${RAW_CSV}")
+records = [{"Behavior": row["Behavior"]} for _, row in df.iterrows()]
+with open("${HARMBENCH_JSON}", "w", encoding="utf-8") as f:
+    json.dump(records, f, indent=2, ensure_ascii=False)
+print(f"Saved {len(records)} behaviors to ${HARMBENCH_JSON}")
+PYEOF
+
+echo ""
+echo "--- Running: vanilla ---"
+$PYTHON models/jailbreakbench_llada.py \
+    --model_path "${MODEL_PATH}" \
+    --attack_method zeroshot \                      # baseline — direct prompt, no attack transformation
+    --attack_prompt "${HARMBENCH_JSON}" \
+    --output_json "${OUTDIR}/generation.json" \
+    --sp_mode off \                                 # no defense (vanilla baseline)
+    --mask_counts 0 \                               # not in papers — code-specific, disables extra masking
+    --debug_print
+    # NOTE: no --temperature or --steps specified → uses code defaults.
+    # DiffuGuard Table 5 uses temp=0.5, steps=64 for LLaDA;
+    # Context Nesting paper uses steps=32. Vanilla baseline intentionally
+    # uses code defaults to represent unmodified model behaviour.
+
+echo ""
+echo "=============================================="
+echo "Generation done. Run harmbench_vanilla_eval.sh next."
+echo "=============================================="

@@ -35,6 +35,44 @@ pip install -r /tmp/requirements_filtered.txt
 # Install spacy model separately
 pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
 
+# Create results directory structure
+echo ""
+echo "Creating results directory structure..."
+mkdir -p results/vanilla/baseline
+
+for exp in \
+    no_defense \
+    fully_random \
+    stochastic_annealing \
+    stochastic_annealing_exp \
+    spd \
+    spd_reminder \
+    fully_random_block_audit \
+    stochastic_annealing_block_audit \
+    greedy_block_audit \
+    stochastic_annealing_exp_block_audit \
+    spd_block_audit \
+    spd_reminder_block_audit
+do
+    mkdir -p "results/context_nesting/$exp"
+    mkdir -p "results/harmless_context_nesting/$exp"
+done
+
+for exp in \
+    no_defense \
+    fully_random \
+    stochastic_annealing \
+    stochastic_annealing_exp \
+    fully_random_block_audit \
+    stochastic_annealing_block_audit \
+    greedy_block_audit \
+    stochastic_annealing_exp_block_audit
+do
+    mkdir -p "results/dija/$exp"
+done
+
+echo "Results directories created."
+
 echo ""
 echo "========================================="
 echo "  DiffuGuard setup complete!"
