@@ -5,8 +5,8 @@
 #PBS -o eval_logs/harmless_plain_eval.log
 #PBS -j oe
 
-# Evaluates harmless plain (no attack) outputs (PPL + SAR only).
-# No ASR evaluation — these are benign prompts.
+# Evaluates harmless plain (no attack) outputs (PPL only).
+# No ASR or SAR evaluation — these are benign prompts.
 # Run harmless_plain_gen.sh first.
 
 module load tools/prod
