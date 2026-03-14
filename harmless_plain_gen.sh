@@ -1,55 +1,38 @@
 #!/bin/bash
 #PBS -l walltime=06:00:00
 #PBS -l select=1:ncpus=4:ngpus=1:mem=64gb
-#PBS -N final_harmbench_context_nesting_gen
-#PBS -o eval_logs/context_nesting_gen.log
+#PBS -N final_harmless_plain_gen
+#PBS -o eval_logs/harmless_plain_gen.log
 #PBS -j oe
 
-# Runs Context Nesting attack on HarmBench prompts across strategies.
-# Context Nesting wraps each behavior in a structural template (Python, LaTeX,
-# JSON, Markdown, YAML, or Story) — no inline masks, no --fill_all_masks.
-# Requires: data/refined_prompt_data/harmbench_context_nesting.json
-#   (generate with run_refinement_all.sh if not already done)
-# Evaluation is in harmbench_context_nesting_eval.sh.
+# Runs zeroshot (no attack) on BENIGN prompts across all defenses.
+# Purpose: measure PPL and SAR on harmless inputs as a utility baseline
+# with no attack wrapper (cf. harmless_context_nesting_gen.sh which uses CN).
+# No ASR evaluation (these are not harmful prompts).
+# Requires: data/pre_refined_prompt/benign_prompts.csv
 #
 # ── Parameter justification key ──────────────────────────────────────────
-# Sources: [CN] = Context Nesting paper, [DG] = DiffuGuard paper, [DIJA] = DIJA paper
+# All params identical to harmless_context_nesting_gen.sh (same configs,
+# raw benign prompts instead of CN-wrapped). See that file for full justifications.
+# Sources: [CN] = Context Nesting paper, [DG] = DiffuGuard paper
 #
-# Shared generation params:
-#   --attack_method zeroshot      : [CN] context nesting embeds attack in prompt template,
-#                                   no iterative optimisation (Sec 4.2)
-#   --temperature 0.5             : not in [CN] — greedy decoding for deterministic eval;
-#                                   [DG] Table 5 uses 0.5 for LLaDA main experiments
-#   --steps 32                    : [CN] same as paper (Sec 5.1: "32 denoising steps");
-#                                   differs from [DG] Table 5 which uses 64
-#   --cfg_scale 0.1               : [DG] same as Table 5 (cfg_scale=0 for LLaDA)
-#   --mask_counts 0               : not in papers — code-specific, disables extra masking
-#
-# Remasking strategies:
-#   (no --remasking flag)         : default — greedy low-confidence remasking (LLaDA default)
-#   --remasking random            : [DG] fully random remasking (Eq. 6)
-#   --remasking adaptive          : [DG] stochastic annealing remasking (Eq. 7-8)
-#   --remasking adaptive_step_exp : not in papers — custom exponential decay variant
-#
-# Stochastic annealing params:
-#   --alpha0 0.3 (adaptive)       : default (α₀=0.3, Table 6);
-#                                   0.6 tested in ablation (Table 7) — stronger safety
-#                                   at moderate quality cost
-#   --alpha0 0.9 (exp variant)    : not in papers — custom high initial randomness
-#   --c 0.12, --m 3, --ratio 3.0 : not in papers — custom exponential schedule params
-#
-# Block-level audit params (sp_mode=hidden):
-#   --sp_threshold 0.1            : default (λ=0.1, Table 6);
-#                                   0.2 tested in ablation (Table 8) — less aggressive
-#                                   threshold, better utility preservation
-#   --refinement_steps 8          : [DG] same as Table 6 (extra_steps=8)
-#   --remask_ratio 0.9            : [DG] same as Table 6 (γ=0.9)
-#
-# SPD experiments:
-#   --temperature 0.5             : [DG] same as Table 5 (LLaDA generation temp);
-#                                   required for SPD sampling diversity
+# Key params:
+#   --temperature 0.5 (non-SPD)   : greedy decoding — deterministic eval
+#   --temperature 0.5 (SPD)       : [DG] same as Table 5 (LLaDA generation temp)
+#   --steps 64                    : [CN] same as paper (Sec 5.1)
+#   --cfg_scale 0.2               : [DG] same as Table 5
+#   --mask_counts 0               : code-specific
+#   --remasking random            : [DG] Eq. 6
+#   --remasking adaptive          : [DG] Eq. 7-8
+#   --remasking adaptive_step_exp : custom exponential variant
+#   --alpha0 0.3 (adaptive)       : ablation value (Table 7)
+#   --alpha0 0.9 (exp variant)    : custom
+#   --c 0.12, --m 3, --ratio 3.0 : custom exp schedule
+#   --sp_threshold 0.1            : ablation value (Table 8)
+#   --refinement_steps 8          : [DG] same as Table 6
+#   --remask_ratio 0.9            : [DG] same as Table 6
 #   --spd_k 5                     : not in [CN]/[DG]/[DIJA] — unjustified from these papers
-#   --defense_method self-reminder: [DG] Sec A.4; originally from Xie et al. 2023
+#   --defense_method self-reminder: [DG] Sec A.4; Xie et al. 2023
 # ─────────────────────────────────────────────────────────────────────────
 
 module load tools/prod
@@ -60,19 +43,34 @@ cd ~/Saftey_Critical_CW_code
 
 PYTHON=$(which python)
 MODEL_PATH="$HOME/Saftey_Critical_CW_code/hf_models/LLaDA-8B-Instruct"
-HARMBENCH_JSON="$HOME/Saftey_Critical_CW_code/data/pre_refined_prompt/harmbench.json"
-CONTEXT_NESTING_PROMPTS="$HOME/Saftey_Critical_CW_code/data/refined_prompt_data/harmbench_context_nesting_refined.json"
+BENIGN_CSV="$HOME/Saftey_Critical_CW_code/data/pre_refined_prompt/benign_prompts.csv"
+BENIGN_JSON="$HOME/Saftey_Critical_CW_code/data/pre_refined_prompt/benign_prompts.json"
 
-BASEDIR="results/context_nesting"
+BASEDIR="results/harmless_plain"
 
-if [ ! -f "$CONTEXT_NESTING_PROMPTS" ]; then
-    echo "ERROR: $CONTEXT_NESTING_PROMPTS not found. Run run_refinement_all.sh first."
+mkdir -p eval_logs
+
+# ==============================================================
+# Step 0: Convert benign CSV to JSON
+# ==============================================================
+echo "=============================================="
+echo "Step 0: Converting benign_prompts.csv to JSON"
+echo "=============================================="
+$PYTHON - <<PYEOF
+import pandas as pd
+import json
+
+df = pd.read_csv("${BENIGN_CSV}")
+records = [{"Behavior": row["Behavior"]} for _, row in df.iterrows()]
+with open("${BENIGN_JSON}", "w", encoding="utf-8") as f:
+    json.dump(records, f, indent=2, ensure_ascii=False)
+print(f"Saved {len(records)} behaviors to ${BENIGN_JSON}")
+PYEOF
+
+if [ ! -f "$BENIGN_JSON" ]; then
+    echo "ERROR: JSON conversion failed. Exiting."
     exit 1
 fi
-
-echo "=============================================="
-echo "HarmBench Context Nesting Attack - Generation"
-echo "=============================================="
 
 # ==============================================================
 # no_defense
@@ -84,13 +82,13 @@ echo "--- Strategy: no_defense ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
@@ -104,13 +102,13 @@ echo "--- Strategy: fully_random ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking random \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
@@ -125,13 +123,13 @@ echo "--- Strategy: stochastic_annealing ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking adaptive \
     --alpha0 0.3 \
     --debug_print
@@ -147,13 +145,13 @@ echo "--- Strategy: stochastic_annealing_exp ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking adaptive_step_exp \
     --alpha0 0.9 \
     --c 0.12 \
@@ -163,7 +161,7 @@ $PYTHON models/jailbreakbench_llada.py \
 echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# fully_random (block level audit active)
+# fully_random (block level audit)
 # ==============================================================
 EXPDIR="${BASEDIR}/fully_random_block_audit"
 mkdir -p "$EXPDIR"
@@ -172,7 +170,7 @@ echo "--- Strategy: fully_random (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.1 \
@@ -180,14 +178,14 @@ $PYTHON models/jailbreakbench_llada.py \
     --remask_ratio 0.9 \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking random \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# stochastic_annealing (block level audit active)
+# stochastic_annealing (block level audit)
 # ==============================================================
 EXPDIR="${BASEDIR}/stochastic_annealing_block_audit"
 mkdir -p "$EXPDIR"
@@ -196,7 +194,7 @@ echo "--- Strategy: stochastic_annealing (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.1 \
@@ -204,15 +202,15 @@ $PYTHON models/jailbreakbench_llada.py \
     --remask_ratio 0.9 \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking adaptive \
     --alpha0 0.3 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# greedy (block level audit active)
+# greedy (block level audit)
 # ==============================================================
 EXPDIR="${BASEDIR}/greedy_block_audit"
 mkdir -p "$EXPDIR"
@@ -221,7 +219,7 @@ echo "--- Strategy: greedy (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.1 \
@@ -229,13 +227,13 @@ $PYTHON models/jailbreakbench_llada.py \
     --remask_ratio 0.9 \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# stochastic_annealing_exp (block level audit active)
+# stochastic_annealing_exp (block level audit)
 # ==============================================================
 EXPDIR="${BASEDIR}/stochastic_annealing_exp_block_audit"
 mkdir -p "$EXPDIR"
@@ -244,7 +242,7 @@ echo "--- Strategy: stochastic_annealing_exp (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.1 \
@@ -252,8 +250,8 @@ $PYTHON models/jailbreakbench_llada.py \
     --remask_ratio 0.9 \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking adaptive_step_exp \
     --alpha0 0.9 \
     --c 0.12 \
@@ -263,7 +261,7 @@ $PYTHON models/jailbreakbench_llada.py \
 echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# SPD (no block audit)
+# spd (no block audit)
 # ==============================================================
 EXPDIR="${BASEDIR}/spd"
 mkdir -p "$EXPDIR"
@@ -272,19 +270,19 @@ echo "--- Strategy: spd ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --spd_k 5 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# SPD (with block audit)
+# spd (with block audit)
 # ==============================================================
 EXPDIR="${BASEDIR}/spd_block_audit"
 mkdir -p "$EXPDIR"
@@ -293,7 +291,7 @@ echo "--- Strategy: spd (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.1 \
@@ -301,14 +299,14 @@ $PYTHON models/jailbreakbench_llada.py \
     --remask_ratio 0.9 \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --spd_k 5 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# SPD + self-reminder (no block audit)
+# spd + self-reminder (no block audit)
 # ==============================================================
 EXPDIR="${BASEDIR}/spd_reminder"
 mkdir -p "$EXPDIR"
@@ -317,20 +315,20 @@ echo "--- Strategy: spd + self-reminder ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --spd_k 5 \
     --defense_method self-reminder \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
 # ==============================================================
-# SPD + self-reminder (with block audit)
+# spd + self-reminder (with block audit)
 # ==============================================================
 EXPDIR="${BASEDIR}/spd_reminder_block_audit"
 mkdir -p "$EXPDIR"
@@ -339,7 +337,7 @@ echo "--- Strategy: spd + self-reminder (block level audit) ---"
 $PYTHON models/jailbreakbench_llada.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${CONTEXT_NESTING_PROMPTS}" \
+    --attack_prompt "${BENIGN_JSON}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
     --sp_threshold 0.1 \
@@ -347,8 +345,8 @@ $PYTHON models/jailbreakbench_llada.py \
     --remask_ratio 0.9 \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.1 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --spd_k 5 \
     --defense_method self-reminder \
     --debug_print
@@ -356,5 +354,5 @@ echo "Done: ${EXPDIR}/generation.json"
 
 echo ""
 echo "=============================================="
-echo "Generation done. Run harmbench_context_nesting_eval.sh next."
+echo "Generation done. Run harmless_plain_eval.sh next."
 echo "=============================================="

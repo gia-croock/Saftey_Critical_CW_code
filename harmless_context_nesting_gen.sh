@@ -16,18 +16,18 @@
 # Sources: [CN] = Context Nesting paper, [DG] = DiffuGuard paper
 #
 # Key params:
-#   --temperature 0.0 (non-SPD)   : greedy decoding — not in [CN]; deterministic eval
+#   --temperature 0.5 (non-SPD)   : greedy decoding — not in [CN]; deterministic eval
 #   --temperature 0.5 (SPD)       : [DG] same as Table 5 (LLaDA generation temp)
-#   --steps 32                    : [CN] same as paper (Sec 5.1); differs from [DG] (64)
-#   --cfg_scale 0.0               : [DG] same as Table 5 (cfg_scale=0 for LLaDA)
+#   --steps 64                    : [CN] same as paper (Sec 5.1); differs from [DG] (64)
+#   --cfg_scale 0.2               : [DG] same as Table 5 (cfg_scale=0 for LLaDA)
 #   --mask_counts 0               : not in papers — code-specific
 #   --remasking random            : [DG] Eq. 6
 #   --remasking adaptive          : [DG] Eq. 7-8
 #   --remasking adaptive_step_exp : not in papers — custom exponential variant
-#   --alpha0 0.6 (adaptive)       : differs from [DG] default (0.3); ablation value (Table 7)
+#   --alpha0 0.3 (adaptive)       :  default (0.3); ablation value (Table 7)
 #   --alpha0 0.9 (exp variant)    : not in papers — custom
 #   --c 0.12, --m 3, --ratio 3.0 : not in papers — custom exp schedule
-#   --sp_threshold 0.2            : differs from [DG] default (0.1); ablation value (Table 8)
+#   --sp_threshold 0.1            : default (0.1); ablation value (Table 8)
 #   --refinement_steps 8          : [DG] same as Table 6
 #   --remask_ratio 0.9            : [DG] same as Table 6
 #   --spd_k 5                     : not in [CN]/[DG]/[DIJA] — unjustified from these papers
@@ -81,9 +81,9 @@ $PYTHON models/jailbreakbench_llada.py \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
-    --temperature 0.0 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --temperature 0.5 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
@@ -101,9 +101,9 @@ $PYTHON models/jailbreakbench_llada.py \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
-    --temperature 0.0 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --temperature 0.5 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking random \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
@@ -122,11 +122,11 @@ $PYTHON models/jailbreakbench_llada.py \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
-    --temperature 0.0 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --temperature 0.5 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking adaptive \
-    --alpha0 0.6 \
+    --alpha0 0.3 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
@@ -144,9 +144,9 @@ $PYTHON models/jailbreakbench_llada.py \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode off \
     --mask_counts 0 \
-    --temperature 0.0 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --temperature 0.5 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking adaptive_step_exp \
     --alpha0 0.9 \
     --c 0.12 \
@@ -168,13 +168,13 @@ $PYTHON models/jailbreakbench_llada.py \
     --attack_prompt "${BENIGN_REFINED}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
-    --sp_threshold 0.2 \
+    --sp_threshold 0.1 \
     --refinement_steps 8 \
     --remask_ratio 0.9 \
     --mask_counts 0 \
-    --temperature 0.0 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --temperature 0.5 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking random \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
@@ -192,15 +192,15 @@ $PYTHON models/jailbreakbench_llada.py \
     --attack_prompt "${BENIGN_REFINED}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
-    --sp_threshold 0.2 \
+    --sp_threshold 0.1 \
     --refinement_steps 8 \
     --remask_ratio 0.9 \
     --mask_counts 0 \
-    --temperature 0.0 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --temperature 0.5 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking adaptive \
-    --alpha0 0.6 \
+    --alpha0 0.3 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
@@ -217,13 +217,13 @@ $PYTHON models/jailbreakbench_llada.py \
     --attack_prompt "${BENIGN_REFINED}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
-    --sp_threshold 0.2 \
+    --sp_threshold 0.1 \
     --refinement_steps 8 \
     --remask_ratio 0.9 \
     --mask_counts 0 \
-    --temperature 0.0 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --temperature 0.5 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
 
@@ -240,13 +240,13 @@ $PYTHON models/jailbreakbench_llada.py \
     --attack_prompt "${BENIGN_REFINED}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
-    --sp_threshold 0.2 \
+    --sp_threshold 0.1 \
     --refinement_steps 8 \
     --remask_ratio 0.9 \
     --mask_counts 0 \
-    --temperature 0.0 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --temperature 0.5 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --remasking adaptive_step_exp \
     --alpha0 0.9 \
     --c 0.12 \
@@ -270,8 +270,8 @@ $PYTHON models/jailbreakbench_llada.py \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --spd_k 5 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
@@ -289,13 +289,13 @@ $PYTHON models/jailbreakbench_llada.py \
     --attack_prompt "${BENIGN_REFINED}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
-    --sp_threshold 0.2 \
+    --sp_threshold 0.1 \
     --refinement_steps 8 \
     --remask_ratio 0.9 \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --spd_k 5 \
     --debug_print
 echo "Done: ${EXPDIR}/generation.json"
@@ -315,8 +315,8 @@ $PYTHON models/jailbreakbench_llada.py \
     --sp_mode off \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --spd_k 5 \
     --defense_method self-reminder \
     --debug_print
@@ -335,13 +335,13 @@ $PYTHON models/jailbreakbench_llada.py \
     --attack_prompt "${BENIGN_REFINED}" \
     --output_json "${EXPDIR}/generation.json" \
     --sp_mode hidden \
-    --sp_threshold 0.2 \
+    --sp_threshold 0.1 \
     --refinement_steps 8 \
     --remask_ratio 0.9 \
     --mask_counts 0 \
     --temperature 0.5 \
-    --steps 32 \
-    --cfg_scale 0.0 \
+    --steps 64 \
+    --cfg_scale 0.2 \
     --spd_k 5 \
     --defense_method self-reminder \
     --debug_print
