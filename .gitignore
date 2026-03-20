@@ -20,3 +20,5 @@ HarmBench-Llama-2-13b-cls/
 LLaDA-1.5/
 MMaDA-8B-MixCoT/
 venv/bin/chardetect
+
+.DS_Store
