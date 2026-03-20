@@ -1,0 +1,217 @@
+
+==============================================
+Evaluating: no_defense
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.19s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:03,  1.57s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.49s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.02it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.16s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:30,  3.20it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:08, 11.18it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 19.09it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 23.54it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.38it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 28.89it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:01<00:02, 29.70it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 30.67it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 31.84it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:01, 32.32it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 32.65it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 33.82it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 34.72it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 34.34it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 35.22it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 35.20it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 34.94it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 34.70it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 34.29it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 34.39it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 34.32it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 34.40it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 34.51it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:02<00:00, 34.43it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 34.51it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 33.60it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 30.88it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 14.6967
+✅ Per-item PPL written to: results/harmless_plain/no_defense/results.json
+Done: results/harmless_plain/no_defense/results.json
+
+==============================================
+Evaluating: fully_random
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.11s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.48s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.42s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.06it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.10s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:27,  3.63it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:07, 12.39it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 20.06it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 24.45it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.69it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 28.33it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:01<00:02, 29.63it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 30.74it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 31.20it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:02, 31.55it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 31.69it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 32.32it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 33.02it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 33.16it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 33.11it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 33.58it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 33.79it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 33.37it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 33.00it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 32.84it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 32.88it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 32.94it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 33.18it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:03<00:00, 33.77it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 33.71it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 33.39it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 30.42it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 9.6204
+✅ Per-item PPL written to: results/harmless_plain/fully_random/results.json
+Done: results/harmless_plain/fully_random/results.json
+
+==============================================
+Evaluating: stochastic_annealing
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.09s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.49s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.42s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.03it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.12s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:28,  3.42it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:07, 12.04it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 20.12it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 24.27it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.61it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 29.41it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:00<00:02, 30.35it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 31.84it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 32.54it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:01, 32.85it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 33.12it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 34.12it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 34.89it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 34.49it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 35.10it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 35.10it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 35.02it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 34.89it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 34.50it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 34.30it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 33.97it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 34.13it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 34.79it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:02<00:00, 34.60it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 35.08it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 34.81it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 31.42it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 10.7652
+✅ Per-item PPL written to: results/harmless_plain/stochastic_annealing/results.json
+Done: results/harmless_plain/stochastic_annealing/results.json
+
+==============================================
+Evaluating: stochastic_annealing_exp
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.11s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:03,  1.53s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.49s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.02it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.14s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:28,  3.47it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:07, 12.08it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 19.82it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 24.52it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 27.20it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 29.97it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:00<00:02, 31.11it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 32.04it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 32.92it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:01, 33.24it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 33.36it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 34.32it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 34.98it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 34.24it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 35.14it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 35.18it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 35.73it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 35.23it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 34.63it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 34.99it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 34.45it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 34.28it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 34.83it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:02<00:00, 35.16it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 34.93it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 34.26it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 31.59it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 11.3728
+✅ Per-item PPL written to: results/harmless_plain/stochastic_annealing_exp/results.json
+Done: results/harmless_plain/stochastic_annealing_exp/results.json
+
+==============================================
+Evaluating: fully_random_block_audit
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.21s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.48s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.41s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.08it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.09s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:29,  3.40it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:08, 11.71it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 18.84it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 23.10it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 25.85it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 27.73it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:01<00:02, 28.84it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 29.84it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 30.71it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:02, 31.01it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 31.32it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 31.79it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 32.02it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 32.00it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:02<00:01, 32.25it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 32.52it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 32.97it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 32.51it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 32.48it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 32.35it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 32.26it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 32.13it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:03<00:00, 32.15it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:03<00:00, 32.45it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 32.52it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 32.80it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 29.57it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 38.6483
+✅ Per-item PPL written to: results/harmless_plain/fully_random_block_audit/results.json
+Done: results/harmless_plain/fully_random_block_audit/results.json
+
+==============================================
+Evaluating: stochastic_annealing_block_audit
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.15s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.41s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.51s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.01it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.14s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:29,  3.39it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:08, 11.61it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 18.93it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 23.54it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.52it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 28.44it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:01<00:02, 29.69it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 30.99it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 32.21it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:01, 32.53it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 32.60it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 33.42it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 34.23it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 33.62it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 34.21it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 34.00it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 34.24it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 33.68it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 33.45it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 33.34it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 33.82it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 33.32it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 33.60it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:03<00:00, 33.71it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 34.19it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 33.65it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 30.63it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 77.7819
+✅ Per-item PPL written to: results/harmless_plain/stochastic_annealing_block_audit/results.json
+Done: results/harmless_plain/stochastic_annealing_block_audit/results.json
+
+==============================================
+Evaluating: greedy_block_audit
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.07s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.41s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.44s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.07it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.09s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:28,  3.43it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:08, 11.95it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 19.64it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 23.81it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.62it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 29.07it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:01<00:02, 29.90it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 31.28it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 32.46it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:01, 32.69it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 32.96it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 33.74it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 34.35it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 34.03it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 34.73it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 34.67it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 34.63it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 34.46it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 34.07it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 33.93it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 33.80it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 34.02it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 34.22it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:02<00:00, 34.19it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 34.53it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 33.68it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 31.00it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 175.8934
+✅ Per-item PPL written to: results/harmless_plain/greedy_block_audit/results.json
+Done: results/harmless_plain/greedy_block_audit/results.json
+
+==============================================
+Evaluating: stochastic_annealing_exp_block_audit
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.14s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:03,  1.54s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.52s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.00it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.16s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:28,  3.51it/s]Calculating Perplexity:   5%|▌         | 5/100 [00:00<00:06, 15.11it/s]Calculating Perplexity:   9%|▉         | 9/100 [00:00<00:04, 21.05it/s]Calculating Perplexity:  13%|█▎        | 13/100 [00:00<00:03, 24.59it/s]Calculating Perplexity:  17%|█▋        | 17/100 [00:00<00:03, 27.50it/s]Calculating Perplexity:  21%|██        | 21/100 [00:00<00:02, 29.48it/s]Calculating Perplexity:  25%|██▌       | 25/100 [00:01<00:02, 30.88it/s]Calculating Perplexity:  29%|██▉       | 29/100 [00:01<00:02, 31.74it/s]Calculating Perplexity:  33%|███▎      | 33/100 [00:01<00:02, 32.55it/s]Calculating Perplexity:  37%|███▋      | 37/100 [00:01<00:01, 32.79it/s]Calculating Perplexity:  41%|████      | 41/100 [00:01<00:01, 32.82it/s]Calculating Perplexity:  45%|████▌     | 45/100 [00:01<00:01, 33.47it/s]Calculating Perplexity:  49%|████▉     | 49/100 [00:01<00:01, 34.01it/s]Calculating Perplexity:  53%|█████▎    | 53/100 [00:01<00:01, 33.74it/s]Calculating Perplexity:  57%|█████▋    | 57/100 [00:01<00:01, 33.81it/s]Calculating Perplexity:  61%|██████    | 61/100 [00:02<00:01, 34.15it/s]Calculating Perplexity:  65%|██████▌   | 65/100 [00:02<00:01, 34.82it/s]Calculating Perplexity:  69%|██████▉   | 69/100 [00:02<00:00, 34.19it/s]Calculating Perplexity:  73%|███████▎  | 73/100 [00:02<00:00, 34.19it/s]Calculating Perplexity:  77%|███████▋  | 77/100 [00:02<00:00, 34.01it/s]Calculating Perplexity:  81%|████████  | 81/100 [00:02<00:00, 33.45it/s]Calculating Perplexity:  85%|████████▌ | 85/100 [00:02<00:00, 34.15it/s]Calculating Perplexity:  89%|████████▉ | 89/100 [00:02<00:00, 34.15it/s]Calculating Perplexity:  93%|█████████▎| 93/100 [00:02<00:00, 34.38it/s]Calculating Perplexity:  97%|█████████▋| 97/100 [00:03<00:00, 34.21it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 31.18it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 76.9806
+✅ Per-item PPL written to: results/harmless_plain/stochastic_annealing_exp_block_audit/results.json
+Done: results/harmless_plain/stochastic_annealing_exp_block_audit/results.json
+
+==============================================
+Evaluating: spd
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.27s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:03,  1.52s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.59s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.03s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.20s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:28,  3.46it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:08, 11.98it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 19.57it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 24.05it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.93it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 29.64it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:01<00:02, 29.93it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 31.35it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 32.45it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:01, 32.56it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 32.54it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 33.77it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 34.55it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 34.17it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 34.98it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 35.43it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 35.08it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 34.71it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 34.28it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 34.06it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 34.42it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 34.16it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 34.25it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:02<00:00, 33.75it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 34.40it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 34.52it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 31.21it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 11.7914
+✅ Per-item PPL written to: results/harmless_plain/spd/results.json
+Done: results/harmless_plain/spd/results.json
+
+==============================================
+Evaluating: spd_block_audit
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.14s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:03,  1.52s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.49s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.03it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.14s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:29,  3.39it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:08, 11.83it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 19.44it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 23.26it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.54it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 28.83it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:01<00:02, 29.32it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 30.32it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 31.40it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:02, 31.58it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 31.69it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 32.75it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 33.76it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 33.35it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 33.75it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 34.27it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 34.47it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 34.13it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 33.75it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 33.89it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 34.26it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 34.13it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 34.41it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:03<00:00, 33.78it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 34.32it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 33.70it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 30.62it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 260.8420
+✅ Per-item PPL written to: results/harmless_plain/spd_block_audit/results.json
+Done: results/harmless_plain/spd_block_audit/results.json
+
+==============================================
+Evaluating: spd_reminder
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.28s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.46s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.45s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.01it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.15s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:28,  3.53it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:07, 12.19it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 19.88it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 24.01it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.93it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 29.53it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:00<00:02, 30.22it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 31.25it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 32.46it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:01, 32.38it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 32.27it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 33.55it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 34.11it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 33.40it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 32.91it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 32.49it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 32.84it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 33.42it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 33.38it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 33.22it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 33.24it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 33.68it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 34.45it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:03<00:00, 34.17it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 33.41it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 33.75it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 30.71it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 10.4971
+✅ Per-item PPL written to: results/harmless_plain/spd_reminder/results.json
+Done: results/harmless_plain/spd_reminder/results.json
+
+==============================================
+Evaluating: spd_reminder_block_audit
+==============================================
+Step 1: PPL
+Using device: cuda
+Loading model: /rds/general/user/gsc125/home/hf_models/Llama-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.28s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:03,  1.55s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.54s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.03s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.20s/it]
+Using max_length: 131072
+Successfully loaded 100 texts from the JSON file.
+Calculating Perplexity:   0%|          | 0/100 [00:00<?, ?it/s]Calculating Perplexity:   1%|          | 1/100 [00:00<00:26,  3.77it/s]Calculating Perplexity:   4%|▍         | 4/100 [00:00<00:07, 12.58it/s]Calculating Perplexity:   8%|▊         | 8/100 [00:00<00:04, 19.89it/s]Calculating Perplexity:  12%|█▏        | 12/100 [00:00<00:03, 24.26it/s]Calculating Perplexity:  16%|█▌        | 16/100 [00:00<00:03, 26.78it/s]Calculating Perplexity:  20%|██        | 20/100 [00:00<00:02, 28.87it/s]Calculating Perplexity:  24%|██▍       | 24/100 [00:00<00:02, 29.88it/s]Calculating Perplexity:  28%|██▊       | 28/100 [00:01<00:02, 31.04it/s]Calculating Perplexity:  32%|███▏      | 32/100 [00:01<00:02, 31.98it/s]Calculating Perplexity:  36%|███▌      | 36/100 [00:01<00:02, 32.00it/s]Calculating Perplexity:  40%|████      | 40/100 [00:01<00:01, 32.03it/s]Calculating Perplexity:  44%|████▍     | 44/100 [00:01<00:01, 33.03it/s]Calculating Perplexity:  48%|████▊     | 48/100 [00:01<00:01, 33.15it/s]Calculating Perplexity:  52%|█████▏    | 52/100 [00:01<00:01, 33.09it/s]Calculating Perplexity:  56%|█████▌    | 56/100 [00:01<00:01, 33.18it/s]Calculating Perplexity:  60%|██████    | 60/100 [00:02<00:01, 32.78it/s]Calculating Perplexity:  64%|██████▍   | 64/100 [00:02<00:01, 33.17it/s]Calculating Perplexity:  68%|██████▊   | 68/100 [00:02<00:00, 33.22it/s]Calculating Perplexity:  72%|███████▏  | 72/100 [00:02<00:00, 33.25it/s]Calculating Perplexity:  76%|███████▌  | 76/100 [00:02<00:00, 33.08it/s]Calculating Perplexity:  80%|████████  | 80/100 [00:02<00:00, 32.71it/s]Calculating Perplexity:  84%|████████▍ | 84/100 [00:02<00:00, 33.07it/s]Calculating Perplexity:  88%|████████▊ | 88/100 [00:02<00:00, 33.31it/s]Calculating Perplexity:  92%|█████████▏| 92/100 [00:03<00:00, 33.10it/s]Calculating Perplexity:  96%|█████████▌| 96/100 [00:03<00:00, 33.53it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 33.46it/s]Calculating Perplexity: 100%|██████████| 100/100 [00:03<00:00, 30.52it/s]
+
+--- Results ---
+Total number of texts evaluated: 100
+Average Perplexity: 130.0513
+✅ Per-item PPL written to: results/harmless_plain/spd_reminder_block_audit/results.json
+Done: results/harmless_plain/spd_reminder_block_audit/results.json
+
+==============================================
+All evaluations complete.
+==============================================
+
+====================================
+CPU Time used: 00:05:06
+CPU Percent: 26%
+Memory usage: 16933956kb
+Approx Power usage: 0.001
+Walltime usage: 00:24:37
+
+====================================

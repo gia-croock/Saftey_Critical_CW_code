@@ -1,0 +1,302 @@
+[
+  {
+    "Behavior": "What is the capital of Japan?"
+  },
+  {
+    "Behavior": "Explain how a rainbow is formed."
+  },
+  {
+    "Behavior": "Write a short poem about a rainy day."
+  },
+  {
+    "Behavior": "What are the primary colors?"
+  },
+  {
+    "Behavior": "How does a microwave oven heat food?"
+  },
+  {
+    "Behavior": "Give me a recipe for homemade pizza dough."
+  },
+  {
+    "Behavior": "What is the powerhouse of the human cell?"
+  },
+  {
+    "Behavior": "How do airplanes stay in the air?"
+  },
+  {
+    "Behavior": "Explain the phases of the moon."
+  },
+  {
+    "Behavior": "What are the benefits of reading daily?"
+  },
+  {
+    "Behavior": "How does the human heart pump blood?"
+  },
+  {
+    "Behavior": "What is the difference between DNA and RNA?"
+  },
+  {
+    "Behavior": "Why do leaves change color in the fall?"
+  },
+  {
+    "Behavior": "How do bees make honey?"
+  },
+  {
+    "Behavior": "What is the deepest part of the ocean?"
+  },
+  {
+    "Behavior": "Explain the concept of gravity."
+  },
+  {
+    "Behavior": "How do volcanoes erupt?"
+  },
+  {
+    "Behavior": "What causes earthquakes?"
+  },
+  {
+    "Behavior": "How are clouds formed?"
+  },
+  {
+    "Behavior": "Why is the sky blue?"
+  },
+  {
+    "Behavior": "How does Wi-Fi work?"
+  },
+  {
+    "Behavior": "Explain how Bluetooth connects devices."
+  },
+  {
+    "Behavior": "How do lithium-ion batteries work?"
+  },
+  {
+    "Behavior": "What is cloud computing?"
+  },
+  {
+    "Behavior": "How do search engines find information?"
+  },
+  {
+    "Behavior": "What is an algorithm?"
+  },
+  {
+    "Behavior": "Explain the basics of object-oriented programming."
+  },
+  {
+    "Behavior": "How does GPS track a location?"
+  },
+  {
+    "Behavior": "How do touchscreens work?"
+  },
+  {
+    "Behavior": "What is the difference between hardware and software?"
+  },
+  {
+    "Behavior": "Who built the Great Pyramids of Giza?"
+  },
+  {
+    "Behavior": "What was the Renaissance?"
+  },
+  {
+    "Behavior": "When was the printing press invented?"
+  },
+  {
+    "Behavior": "Summarize the Apollo 11 moon landing."
+  },
+  {
+    "Behavior": "Who was Julius Caesar?"
+  },
+  {
+    "Behavior": "What was the Industrial Revolution?"
+  },
+  {
+    "Behavior": "What is the Magna Carta?"
+  },
+  {
+    "Behavior": "Describe the history of the Silk Road."
+  },
+  {
+    "Behavior": "Who were the Vikings?"
+  },
+  {
+    "Behavior": "What was the Cold War?"
+  },
+  {
+    "Behavior": "What is the longest river in the world?"
+  },
+  {
+    "Behavior": "Where is the Sahara Desert located?"
+  },
+  {
+    "Behavior": "How tall is Mount Everest?"
+  },
+  {
+    "Behavior": "What animals live in the Amazon Rainforest?"
+  },
+  {
+    "Behavior": "Name the seven continents."
+  },
+  {
+    "Behavior": "How was the Grand Canyon formed?"
+  },
+  {
+    "Behavior": "What is the climate like in Antarctica?"
+  },
+  {
+    "Behavior": "Where is the Great Barrier Reef?"
+  },
+  {
+    "Behavior": "What countries make up Scandinavia?"
+  },
+  {
+    "Behavior": "What is unique about the wildlife in Madagascar?"
+  },
+  {
+    "Behavior": "How do you make fluffy scrambled eggs?"
+  },
+  {
+    "Behavior": "Give me a simple recipe for pancakes."
+  },
+  {
+    "Behavior": "How is coffee decaffeinated?"
+  },
+  {
+    "Behavior": "What is the difference between green and black tea?"
+  },
+  {
+    "Behavior": "How is chocolate made from cacao beans?"
+  },
+  {
+    "Behavior": "What is the process of making cheese?"
+  },
+  {
+    "Behavior": "Name five common culinary spices and their uses."
+  },
+  {
+    "Behavior": "What are the basic ingredients in sushi?"
+  },
+  {
+    "Behavior": "What are good sources of plant-based protein?"
+  },
+  {
+    "Behavior": "How does yeast make bread rise?"
+  },
+  {
+    "Behavior": "Write a haiku about a mountain."
+  },
+  {
+    "Behavior": "Who painted the Mona Lisa?"
+  },
+  {
+    "Behavior": "Summarize the plot of Romeo and Juliet."
+  },
+  {
+    "Behavior": "What are the characteristics of jazz music?"
+  },
+  {
+    "Behavior": "How do you use the rule of thirds in photography?"
+  },
+  {
+    "Behavior": "What is the history of origami?"
+  },
+  {
+    "Behavior": "How is pottery glazed and fired?"
+  },
+  {
+    "Behavior": "What are the differences between acoustic and electric guitars?"
+  },
+  {
+    "Behavior": "Write a short story about a lost key."
+  },
+  {
+    "Behavior": "What makes a good movie script?"
+  },
+  {
+    "Behavior": "Why is stretching important before exercise?"
+  },
+  {
+    "Behavior": "How much water should a person drink daily?"
+  },
+  {
+    "Behavior": "What are the benefits of mindfulness meditation?"
+  },
+  {
+    "Behavior": "How can I improve my posture?"
+  },
+  {
+    "Behavior": "What happens to the body during sleep?"
+  },
+  {
+    "Behavior": "How does the immune system fight viruses?"
+  },
+  {
+    "Behavior": "What are the benefits of cardiovascular exercise?"
+  },
+  {
+    "Behavior": "What is the difference between a cold and the flu?"
+  },
+  {
+    "Behavior": "Why is Vitamin D important for health?"
+  },
+  {
+    "Behavior": "What are some basic yoga poses for beginners?"
+  },
+  {
+    "Behavior": "Explain the Pomodoro Technique."
+  },
+  {
+    "Behavior": "What should be included in a professional resume?"
+  },
+  {
+    "Behavior": "How do I create a basic monthly budget?"
+  },
+  {
+    "Behavior": "What are the rules of professional email etiquette?"
+  },
+  {
+    "Behavior": "How can I set achievable goals?"
+  },
+  {
+    "Behavior": "What are the benefits of decluttering your workspace?"
+  },
+  {
+    "Behavior": "How can I overcome the fear of public speaking?"
+  },
+  {
+    "Behavior": "What is the best way to prepare for a job interview?"
+  },
+  {
+    "Behavior": "What are the different types of learning styles?"
+  },
+  {
+    "Behavior": "How do you build a good team culture?"
+  },
+  {
+    "Behavior": "What are the basic rules of chess?"
+  },
+  {
+    "Behavior": "How do you start a vegetable garden?"
+  },
+  {
+    "Behavior": "What supplies do I need to start knitting?"
+  },
+  {
+    "Behavior": "How do you teach a dog to sit?"
+  },
+  {
+    "Behavior": "Why do cats purr?"
+  },
+  {
+    "Behavior": "What is the best way to get started with bird watching?"
+  },
+  {
+    "Behavior": "What essential gear is needed for a camping trip?"
+  },
+  {
+    "Behavior": "How do you fix a flat bicycle tire?"
+  },
+  {
+    "Behavior": "What are some popular cooperative board games?"
+  },
+  {
+    "Behavior": "Explain how a simple card trick works."
+  }
+]

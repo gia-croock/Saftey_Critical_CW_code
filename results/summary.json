@@ -2,180 +2,180 @@
   {
     "attack": "context_nesting",
     "experiment": "fully_random",
-    "ASR_e": 50.64,
-    "ASR_k": 82.55,
-    "PPL": 22.29,
-    "SAR": 45.53,
+    "ASR_e": 62.98,
+    "ASR_k": 81.7,
+    "PPL": 16.09,
+    "SAR": 58.72,
     "num_items": 235
   },
   {
     "attack": "context_nesting",
     "experiment": "fully_random_block_audit",
-    "ASR_e": 53.62,
-    "ASR_k": 80.43,
-    "PPL": 84.82,
-    "SAR": 13.62,
+    "ASR_e": 63.4,
+    "ASR_k": 80.0,
+    "PPL": 82.19,
+    "SAR": 20.0,
     "num_items": 235
   },
   {
     "attack": "context_nesting",
     "experiment": "greedy_block_audit",
-    "ASR_e": 74.04,
-    "ASR_k": 85.96,
-    "PPL": 75.62,
-    "SAR": 23.4,
+    "ASR_e": 77.45,
+    "ASR_k": 89.79,
+    "PPL": 84.0,
+    "SAR": 20.43,
     "num_items": 235
   },
   {
     "attack": "context_nesting",
     "experiment": "no_defense",
-    "ASR_e": 68.51,
-    "ASR_k": 89.36,
-    "PPL": 12.21,
-    "SAR": 66.81,
+    "ASR_e": 75.74,
+    "ASR_k": 88.51,
+    "PPL": 11.47,
+    "SAR": 72.34,
     "num_items": 235
   },
   {
     "attack": "context_nesting",
     "experiment": "spd",
-    "ASR_e": 73.62,
-    "ASR_k": 89.79,
-    "PPL": 14.05,
-    "SAR": 63.83,
+    "ASR_e": 74.47,
+    "ASR_k": 92.34,
+    "PPL": 13.95,
+    "SAR": 65.53,
     "num_items": 235
   },
   {
     "attack": "context_nesting",
     "experiment": "spd_block_audit",
-    "ASR_e": 71.06,
-    "ASR_k": 92.77,
-    "PPL": 76.68,
+    "ASR_e": 80.0,
+    "ASR_k": 91.06,
+    "PPL": 72.67,
+    "SAR": 20.0,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "spd_reminder",
+    "ASR_e": 48.51,
+    "ASR_k": 65.11,
+    "PPL": 23.2,
+    "SAR": 41.28,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "spd_reminder_block_audit",
+    "ASR_e": 52.34,
+    "ASR_k": 63.83,
+    "PPL": 173.51,
+    "SAR": 13.62,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "stochastic_annealing",
+    "ASR_e": 70.21,
+    "ASR_k": 87.23,
+    "PPL": 13.38,
+    "SAR": 69.79,
+    "num_items": 235
+  },
+  {
+    "attack": "context_nesting",
+    "experiment": "stochastic_annealing_block_audit",
+    "ASR_e": 74.47,
+    "ASR_k": 88.09,
+    "PPL": 64.66,
     "SAR": 20.85,
     "num_items": 235
   },
   {
     "attack": "context_nesting",
-    "experiment": "spd_reminder",
-    "ASR_e": 42.55,
-    "ASR_k": 65.11,
-    "PPL": 22.91,
-    "SAR": 34.04,
+    "experiment": "stochastic_annealing_exp",
+    "ASR_e": 52.34,
+    "ASR_k": 80.43,
+    "PPL": 17.93,
+    "SAR": 50.21,
     "num_items": 235
   },
   {
     "attack": "context_nesting",
-    "experiment": "spd_reminder_block_audit",
-    "ASR_e": 48.51,
-    "ASR_k": 68.09,
-    "PPL": 121.04,
-    "SAR": 16.17,
-    "num_items": 235
-  },
-  {
-    "attack": "context_nesting",
-    "experiment": "stochastic_annealing",
-    "ASR_e": 58.72,
-    "ASR_k": 85.11,
-    "PPL": 1730.54,
-    "SAR": 58.3,
-    "num_items": 235
-  },
-  {
-    "attack": "context_nesting",
-    "experiment": "stochastic_annealing_block_audit",
-    "ASR_e": 58.3,
-    "ASR_k": 85.96,
-    "PPL": 65.63,
+    "experiment": "stochastic_annealing_exp_block_audit",
+    "ASR_e": 62.13,
+    "ASR_k": 81.7,
+    "PPL": 100.77,
     "SAR": 13.62,
     "num_items": 235
   },
   {
-    "attack": "context_nesting",
-    "experiment": "stochastic_annealing_exp",
-    "ASR_e": 45.11,
-    "ASR_k": 83.4,
-    "PPL": 17.73,
-    "SAR": 41.7,
-    "num_items": 235
-  },
-  {
-    "attack": "context_nesting",
-    "experiment": "stochastic_annealing_exp_block_audit",
-    "ASR_e": 48.94,
-    "ASR_k": 80.85,
-    "PPL": 84.93,
-    "SAR": 11.91,
-    "num_items": 235
-  },
-  {
     "attack": "dija",
     "experiment": "fully_random",
-    "ASR_e": 82.55,
-    "ASR_k": 93.19,
-    "PPL": 14.14,
+    "ASR_e": 77.45,
+    "ASR_k": 97.02,
+    "PPL": 13.76,
     "SAR": null,
     "num_items": 235
   },
   {
     "attack": "dija",
     "experiment": "fully_random_block_audit",
-    "ASR_e": 27.23,
-    "ASR_k": 67.66,
-    "PPL": 34.96,
+    "ASR_e": 22.13,
+    "ASR_k": 66.81,
+    "PPL": 35.88,
     "SAR": null,
     "num_items": 235
   },
   {
     "attack": "dija",
     "experiment": "greedy_block_audit",
-    "ASR_e": 26.81,
-    "ASR_k": 72.34,
-    "PPL": 30.24,
+    "ASR_e": 24.26,
+    "ASR_k": 64.26,
+    "PPL": 43.45,
     "SAR": null,
     "num_items": 235
   },
   {
     "attack": "dija",
     "experiment": "no_defense",
-    "ASR_e": 76.6,
-    "ASR_k": 96.6,
-    "PPL": 11.89,
+    "ASR_e": 77.87,
+    "ASR_k": 97.45,
+    "PPL": 12.39,
     "SAR": null,
     "num_items": 235
   },
   {
     "attack": "dija",
     "experiment": "stochastic_annealing",
-    "ASR_e": 76.17,
-    "ASR_k": 95.32,
-    "PPL": 12.41,
+    "ASR_e": 76.6,
+    "ASR_k": 96.6,
+    "PPL": 12.2,
     "SAR": null,
     "num_items": 235
   },
   {
     "attack": "dija",
     "experiment": "stochastic_annealing_block_audit",
-    "ASR_e": 28.51,
-    "ASR_k": 71.06,
-    "PPL": 33.3,
+    "ASR_e": 24.68,
+    "ASR_k": 69.36,
+    "PPL": 35.88,
     "SAR": null,
     "num_items": 235
   },
   {
     "attack": "dija",
     "experiment": "stochastic_annealing_exp",
-    "ASR_e": 74.89,
-    "ASR_k": 95.32,
-    "PPL": 12.44,
+    "ASR_e": 77.02,
+    "ASR_k": 97.02,
+    "PPL": 12.26,
     "SAR": null,
     "num_items": 235
   },
   {
     "attack": "dija",
     "experiment": "stochastic_annealing_exp_block_audit",
-    "ASR_e": 27.23,
+    "ASR_e": 17.87,
     "ASR_k": 66.81,
-    "PPL": 38.35,
+    "PPL": 37.18,
     "SAR": null,
     "num_items": 235
   },
@@ -184,8 +184,8 @@
     "experiment": "fully_random",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 14.4,
-    "SAR": 62.0,
+    "PPL": 8.77,
+    "SAR": 82.0,
     "num_items": 100
   },
   {
@@ -193,8 +193,8 @@
     "experiment": "fully_random_block_audit",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 47.56,
-    "SAR": 21.0,
+    "PPL": 52.06,
+    "SAR": 20.0,
     "num_items": 100
   },
   {
@@ -202,8 +202,8 @@
     "experiment": "greedy_block_audit",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 68.6,
-    "SAR": 7.0,
+    "PPL": 33.06,
+    "SAR": 27.0,
     "num_items": 100
   },
   {
@@ -211,8 +211,8 @@
     "experiment": "no_defense",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 15.7,
-    "SAR": 67.0,
+    "PPL": 6.24,
+    "SAR": 96.0,
     "num_items": 100
   },
   {
@@ -220,8 +220,8 @@
     "experiment": "spd",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 16.52,
-    "SAR": 62.0,
+    "PPL": 5.81,
+    "SAR": 92.0,
     "num_items": 100
   },
   {
@@ -229,8 +229,8 @@
     "experiment": "spd_block_audit",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 378.32,
-    "SAR": 18.0,
+    "PPL": 31.98,
+    "SAR": 29.0,
     "num_items": 100
   },
   {
@@ -238,8 +238,8 @@
     "experiment": "spd_reminder",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 16.27,
-    "SAR": 71.0,
+    "PPL": 8.19,
+    "SAR": 90.0,
     "num_items": 100
   },
   {
@@ -247,8 +247,8 @@
     "experiment": "spd_reminder_block_audit",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 69.27,
-    "SAR": 14.0,
+    "PPL": 38.91,
+    "SAR": 28.0,
     "num_items": 100
   },
   {
@@ -256,8 +256,8 @@
     "experiment": "stochastic_annealing",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 16.78,
-    "SAR": 63.0,
+    "PPL": 7.39,
+    "SAR": 89.0,
     "num_items": 100
   },
   {
@@ -265,8 +265,8 @@
     "experiment": "stochastic_annealing_block_audit",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 199.81,
-    "SAR": 11.0,
+    "PPL": 33.96,
+    "SAR": 27.0,
     "num_items": 100
   },
   {
@@ -274,8 +274,8 @@
     "experiment": "stochastic_annealing_exp",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 17.9,
-    "SAR": 60.0,
+    "PPL": 12.98,
+    "SAR": 72.0,
     "num_items": 100
   },
   {
@@ -283,16 +283,124 @@
     "experiment": "stochastic_annealing_exp_block_audit",
     "ASR_e": null,
     "ASR_k": null,
-    "PPL": 70.05,
-    "SAR": 13.0,
+    "PPL": 60.33,
+    "SAR": 22.0,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "fully_random",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 9.62,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "fully_random_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 38.65,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "greedy_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 175.89,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "no_defense",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 14.7,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "spd",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 11.79,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "spd_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 260.84,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "spd_reminder",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 10.5,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "spd_reminder_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 130.05,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "stochastic_annealing",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 10.77,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "stochastic_annealing_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 77.78,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "stochastic_annealing_exp",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 11.37,
+    "SAR": null,
+    "num_items": 100
+  },
+  {
+    "attack": "harmless_plain",
+    "experiment": "stochastic_annealing_exp_block_audit",
+    "ASR_e": null,
+    "ASR_k": null,
+    "PPL": 76.98,
+    "SAR": null,
     "num_items": 100
   },
   {
     "attack": "vanilla",
     "experiment": "baseline",
-    "ASR_e": 3.83,
-    "ASR_k": 7.23,
-    "PPL": 15.16,
+    "ASR_e": 3.4,
+    "ASR_k": 6.81,
+    "PPL": 15.91,
     "SAR": null,
     "num_items": 235
   }
