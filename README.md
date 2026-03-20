@@ -83,12 +83,12 @@ Aggregates all results into `results/summary.json`.
 
 Each attack is evaluated against the following defence configurations:
 
-- **No Defence** — default greedy low-confidence remasking
-- **Fully Random** — uniform random token sampling at all mask positions
-- **Stochastic Annealing** — random blend decayed over steps (α₀=0.3)
-- **Stochastic Annealing (Exp.)** — exponential decay variant (α₀=0.9, c=0.12)
+- **No Defence** - default greedy low-confidence remasking
+- **Fully Random** - uniform random token sampling at all mask positions
+- **Stochastic Annealing** - random blend decayed over steps (α₀=0.3)
+- **Stochastic Annealing (Exp.)** - exponential decay variant (α₀=0.9, c=0.12)
 - **SPD** — Sequential Prefix Demasking (k=5)
-- **SPD + Self-Reminder** — SPD with a safety system prompt
-- **+ Block Audit** — any of the above combined with hidden-state self-detection (λ=0.1) and self-correction (8 steps, γ=0.9)
+- **SPD + Self-Reminder** - SPD with a safety system prompt
+- **+ Block Audit** - any of the above combined with hidden-state self-detection (λ=0.1) and self-correction (8 steps, γ=0.9)
 
 ---
