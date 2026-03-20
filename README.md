@@ -1,5 +1,7 @@
 This repo is adapted from the [DiffuGuard](https://github.com/yjydya/diffuguard) codebase.
 
+This project was done by Rael Ware and Gia Croock
+
 Two attacks are evaluated (**DIJA** and **Context Nesting**) across a range of remasking-based defence configurations. Results are measured using ASR, perplexity, and structural adherence rate.
 
 ---
@@ -87,7 +89,7 @@ Each attack is evaluated against the following defence configurations:
 - **Fully Random** - uniform random token sampling at all mask positions
 - **Stochastic Annealing** - random blend decayed over steps (α₀=0.3)
 - **Stochastic Annealing (Exp.)** - exponential decay variant (α₀=0.9, c=0.12)
-- **SPD** — Sequential Prefix Demasking (k=5)
+- **SPD** - Sequential Prefix Demasking (k=5)
 - **SPD + Self-Reminder** - SPD with a safety system prompt
 - **+ Block Audit** - any of the above combined with hidden-state self-detection (λ=0.1) and self-correction (8 steps, γ=0.9)
 
