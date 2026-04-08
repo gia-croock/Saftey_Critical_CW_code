@@ -4,6 +4,9 @@
 # then compares against the equivalent LLaDA result.
 # Run this interactively on the cluster before submitting the full PBS job.
 
+module load tools/prod
+module load Python/3.11.3-GCCcore-12.3.0
+
 cd ~/Saftey_Critical_CW_code
 source venv/bin/activate
 
