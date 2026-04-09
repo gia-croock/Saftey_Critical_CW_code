@@ -520,11 +520,16 @@ def generate_response(
         sum(a.item() == b.item() for a, b in zip(vanilla_ids[0], input_ids[0])),
         len(vanilla_ids[0]),
     )
-    # ====== Generic LLaDA alignment: if the input contains NO <mask>, append gen_length <|mask|> at the tail ======
-    # Check at token level to ensure alignment with --mask_id
+    # ====== Custom AR alignment: if the input contains NO <mask>, append gen_length <|mask|> at the tail ======
+    # Only needed for custom AR paths — native diffusion_generate (remasking=off) handles max_new_tokens
+    # internally and must NOT receive a pre-appended mask tail (it would fill those AND generate more,
+    # causing decode to read the wrong section of output_ids).
+    # PAD path manages its own masks inside generate_dream_hidden.
+    attack_method_lower = (args.attack_method or "").lower()
     has_any_mask = (input_ids == int(args.mask_id)).any().item()
+    needs_mask_tail = (not has_any_mask) and (int(args.gen_length) > 0) and (args.remasking != "off") and (attack_method_lower != "pad")
 
-    if (not has_any_mask) and (int(args.gen_length) > 0):
+    if needs_mask_tail:
         B = input_ids.size(0)
 
         # 1) Append <mask> tail
@@ -548,9 +553,7 @@ def generate_response(
                 protected_index = torch.cat([protected_index, pad_false], dim=1)
 
         if getattr(args, "debug_print", False):
-            logging.info(f"[Dream-GenTail] appended {int(args.gen_length)} masks at token layer (generic, no-mask case).")
-
-    attack_method_lower = (args.attack_method or "").lower()
+            logging.info(f"[Dream-GenTail] appended {int(args.gen_length)} masks at token layer (custom AR, no-mask case).")
 
     # ======= PAD route (unified) =======
     if attack_method_lower == "pad":

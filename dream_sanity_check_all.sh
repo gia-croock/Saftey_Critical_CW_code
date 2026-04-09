@@ -64,7 +64,7 @@ $PYTHON models/jailbreakbench_dream.py \
     --output_json "${OUTDIR}/context_nesting_out.json" \
     --remasking off \
     --sp_mode off \
-    --steps 64 \
+    --steps 32 \
     --gen_length 128 \
     --temperature 0.5 \
     --mask_counts 0
