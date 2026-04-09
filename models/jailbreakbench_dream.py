@@ -662,10 +662,27 @@ def generate_response(
             debug_print=args.debug_print,
         )
 
-    # Decode & special cleanup
-    response = tokenizer.batch_decode(output_ids[:, matching_count:], skip_special_tokens=True)[0]
+    # Decode — start position depends on attack method and generation path:
+    #   DIJA:     masks are embedded inside the user turn; matching_count skips
+    #             past the shared prefix to where DIJA content diverges from the
+    #             vanilla prompt, landing at the filled-mask region.
+    #   non-DIJA, native generate (remasking==off): Dream appends response tokens
+    #             after the full input, so response starts at input_ids.shape[1].
+    #   non-DIJA, custom AR (remasking!=off): dream_adaptive_generate fills masks
+    #             in-place (output same length as input), so response starts at
+    #             the first <|mask|> position in input_ids (the assistant-turn tail
+    #             appended by the has_any_mask block above, or existing masks).
     if attack_method_lower == "dija":
-        response = response.split("assistant\n")[0]
+        raw = tokenizer.batch_decode(output_ids[:, matching_count:], skip_special_tokens=True)[0]
+        response = raw.split("assistant\n")[0]
+    elif output_ids.shape[1] > input_ids.shape[1]:
+        # Native diffusion_generate appended new tokens after the prompt
+        response = tokenizer.batch_decode(output_ids[:, input_ids.shape[1]:], skip_special_tokens=True)[0]
+    else:
+        # Custom AR filled masks in-place; start from the first mask token
+        first_mask = (input_ids[0] == int(args.mask_id)).nonzero(as_tuple=False)
+        start = int(first_mask[0].item()) if first_mask.numel() > 0 else matching_count
+        response = tokenizer.batch_decode(output_ids[:, start:], skip_special_tokens=True)[0]
     # Strip Dream chat template markers that skip_special_tokens misses
     response = response.split("<|im_end|>")[0].strip()
     return response

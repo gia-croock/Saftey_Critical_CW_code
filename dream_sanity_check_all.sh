@@ -66,7 +66,8 @@ $PYTHON models/jailbreakbench_dream.py \
     --sp_mode off \
     --steps 64 \
     --gen_length 128 \
-    --temperature 0.5
+    --temperature 0.5 \
+    --mask_counts 0
 
 echo ""
 echo "=============================================="
@@ -81,7 +82,8 @@ $PYTHON models/jailbreakbench_dream.py \
     --sp_mode off \
     --steps 64 \
     --gen_length 128 \
-    --temperature 0.5
+    --temperature 0.5 \
+    --mask_counts 0
 
 echo ""
 echo "=============================================="
@@ -97,7 +99,8 @@ $PYTHON models/jailbreakbench_dream.py \
     --sp_mode off \
     --steps 64 \
     --gen_length 128 \
-    --temperature 0.5
+    --temperature 0.5 \
+    --mask_counts 0
 
 echo ""
 echo "=============================================="
