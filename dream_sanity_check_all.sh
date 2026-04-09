@@ -16,7 +16,7 @@ cd ~/Saftey_Critical_CW_code
 
 PYTHON=$(which python)
 MODEL_PATH="$HOME/Saftey_Critical_CW_code/hf_models/Dream-v0-Instruct-7B"
-OUTDIR="/tmp/dream_sanity"
+OUTDIR="dream_results/sanity_check"
 mkdir -p "$OUTDIR"
 
 # Extract 1 prompt from each dataset
