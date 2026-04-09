@@ -8,6 +8,7 @@ import os
 import re
 import sys
 import json
+import math
 import torch
 import argparse
 import logging
@@ -59,9 +60,14 @@ def parse_args() -> argparse.Namespace:
 
     # ===== Adaptive Remask (only affects decoding; independent from Self-Correction) =====
     parser.add_argument("--remasking", type=str, default="off",
-                        choices=["off", "low_confidence", "random", "rate", "adaptive", "adaptive_step"])
+                        choices=["off", "low_confidence", "random", "rate", "adaptive", "adaptive_step", "adaptive_step_exp"])
     parser.add_argument("--alpha0", type=float, default=0.8, help="Initial random blend weight (for adaptive/step)")
     parser.add_argument("--random_rate", type=float, default=0.3, help="Random blend rate in 'rate' mode")
+    parser.add_argument("--c", type=float, default=0.12, help="Exponential decay rate for adaptive_step_exp remasking")
+    parser.add_argument("--m", type=int, default=3, help="Number of safety-critical prefix positions for adaptive_step_exp")
+    parser.add_argument("--ratio", type=float, default=3.0, help="Critical vs non-critical alpha multiplier for adaptive_step_exp")
+    parser.add_argument("--spd_k", type=int, default=0,
+                        help="Sequential Prefix Demasking: unmask this many tokens left-to-right before parallel demasking. 0 = disabled.")
 
     # ===== Self-Detection/Correction (independent from remasking) =====
     parser.add_argument("--sp_mode", type=str, default="off", choices=["off", "hidden"],
@@ -192,6 +198,10 @@ def dream_adaptive_generate(
     remasking: str,
     alpha0: float,
     random_rate: float,
+    c: float = 0.12,
+    m: int = 3,
+    ratio: float = 3.0,
+    spd_k: int = 0,
     debug_print: bool = False,
 ) -> torch.Tensor:
     device = input_ids.device
@@ -211,7 +221,28 @@ def dream_adaptive_generate(
     if not initial_mask.any():
         return x
 
-    num_transfer_tokens = get_num_transfer_tokens(initial_mask, steps)
+    assert spd_k < steps, f"spd_k ({spd_k}) must be less than steps ({steps})"
+
+    if spd_k > 0:  # hybrid ARM-MDM: first spd_k steps unmask left-to-right, then parallel
+        parallel_steps = steps - spd_k
+        remaining_mask_count = initial_mask.sum(dim=1, keepdim=True) - spd_k
+        remaining_mask_count = remaining_mask_count.clamp(min=0)
+
+        prefix_schedule = torch.ones(B, spd_k, device=device, dtype=torch.int64)
+
+        if parallel_steps > 0:
+            base = remaining_mask_count // parallel_steps
+            remainder = remaining_mask_count % parallel_steps
+            parallel_schedule = base.expand(-1, parallel_steps).clone()
+            for b in range(B):
+                parallel_schedule[b, :remainder[b]] += 1
+        else:
+            parallel_schedule = torch.zeros(B, 0, device=device, dtype=torch.int64)
+
+        num_transfer_tokens = torch.cat([prefix_schedule, parallel_schedule], dim=1)
+    else:
+        num_transfer_tokens = get_num_transfer_tokens(initial_mask, steps)
+
     total_steps = steps
 
     for i in range(steps):
@@ -225,6 +256,7 @@ def dream_adaptive_generate(
         model_conf = torch.gather(probs, dim=-1, index=x0.unsqueeze(-1)).squeeze(-1)
         R = torch.rand((B, L), device=device)
 
+        alpha = None  # for debug logging
         if remasking == "low_confidence":
             x0_p = model_conf
         elif remasking == "random":
@@ -239,25 +271,47 @@ def dream_adaptive_generate(
             frac = 1.0 - (i / (total_steps - 1)) if total_steps > 1 else 1.0
             alpha = torch.clamp(torch.tensor(alpha0 * frac, device=device, dtype=model_conf.dtype), 0.0, 1.0)
             x0_p = (1 - alpha) * model_conf + alpha * R
+        elif remasking == "adaptive_step_exp":  # exponential decay + budget-preserving position weighting
+            alpha_n = alpha0 * math.exp(-c * i)
+            alpha_low = (L * alpha_n) / ((L - m) + m * ratio)
+            alpha_high = alpha_low * ratio
+            position_indices = torch.arange(L, device=device)
+            alpha_n_i = torch.where(
+                position_indices <= m,
+                torch.tensor(alpha_high, device=device, dtype=model_conf.dtype),
+                torch.tensor(alpha_low, device=device, dtype=model_conf.dtype),
+            )
+            x0_p = (1 - alpha_n_i) * model_conf + alpha_n_i * R
         else:  # "off" should not reach here; handled by caller
             x0_p = model_conf
 
         current_mask = (x == mask_id)
         conf = torch.where(current_mask, x0_p, torch.full_like(x0_p, -1e9))
 
-        for b in range(B):
-            k = int(num_transfer_tokens[b, i].item())
-            valid_idx = current_mask[b].nonzero(as_tuple=False).squeeze(1)
-            if valid_idx.numel() == 0 or k <= 0:
-                continue
-            k = min(k, valid_idx.numel())
-            _, local = torch.topk(conf[b, valid_idx], k=k)
-            choose = valid_idx[local]
-            x[b, choose] = x0[b, choose]
+        if spd_k > 0 and i < spd_k:  # SPD phase: unmask leftmost masked token only
+            for b in range(B):
+                masked_positions = current_mask[b].nonzero(as_tuple=False).squeeze(1)
+                if masked_positions.numel() > 0:
+                    pos = masked_positions[0]
+                    x[b, pos] = x0[b, pos]
+                    if debug_print:
+                        tok = tokenizer.decode([x0[b, pos].item()])
+                        logging.info(f"[SPD step {i}] batch={b} pos={int(pos)} token='{tok}'")
+        else:
+            for b in range(B):
+                k = int(num_transfer_tokens[b, i].item())
+                valid_idx = current_mask[b].nonzero(as_tuple=False).squeeze(1)
+                if valid_idx.numel() == 0 or k <= 0:
+                    continue
+                k = min(k, valid_idx.numel())
+                _, local = torch.topk(conf[b, valid_idx], k=k)
+                choose = valid_idx[local]
+                x[b, choose] = x0[b, choose]
 
         if debug_print and (i == 0 or (i + 1) == steps or (i + 1) % max(1, steps // 4) == 0):
             rem = int((x == mask_id).sum().item())
-            logging.info(f"[Dream-AR] step {i+1}/{steps} | alpha={float(alpha) if 'alpha' in locals() else 0:.3f} | remaining masks={rem}")
+            alpha_val = float(alpha.mean().item()) if alpha is not None and hasattr(alpha, 'mean') else (float(alpha) if alpha is not None else 0.0)
+            logging.info(f"[Dream-AR] step {i+1}/{steps} | alpha={alpha_val:.3f} | remaining masks={rem}")
 
         if not (x == mask_id).any():
             break
@@ -396,7 +450,7 @@ def build_detection_prompt(tokenizer, user_text: str, is_instruct: bool,
     return build_chat_prompt(tokenizer, user_with_tail, is_instruct, system_prompt)
 
 
-@torch.no_grad__()
+@torch.no_grad()
 def _find_tail_span(tok: torch.Tensor, mask_id: int, tail_len: int) -> tuple[int, int]:
     mask_pos = (tok == mask_id).nonzero(as_tuple=False).squeeze(1)
     assert mask_pos.numel() >= tail_len, f"Reference tail not found or too short: have {mask_pos.numel()}, need {tail_len}"
@@ -406,7 +460,7 @@ def _find_tail_span(tok: torch.Tensor, mask_id: int, tail_len: int) -> tuple[int
     return start, end
 
 
-@torch.no_grad__()
+@torch.no_grad()
 def first_step_tail_mean_hidden(model, tokenizer, prompt: str, mask_id: int, tail_len: int) -> torch.Tensor:
     ids = tokenizer(prompt, return_tensors="pt")["input_ids"].to(model.device)  # [1, L]
     out = model(ids, output_hidden_states=True, return_dict=True)
@@ -571,6 +625,10 @@ def generate_response(
             remasking=args.remasking,
             alpha0=args.alpha0,
             random_rate=args.random_rate,
+            c=args.c,
+            m=args.m,
+            ratio=args.ratio,
+            spd_k=args.spd_k,
             debug_print=args.debug_print,
         )
     # ======= Unified post Self-Correction (decoupled from remasking; only for non-PAD path to avoid double-correction) =======
@@ -608,6 +666,8 @@ def generate_response(
     response = tokenizer.batch_decode(output_ids[:, matching_count:], skip_special_tokens=True)[0]
     if attack_method_lower == "dija":
         response = response.split("assistant\n")[0]
+    # Strip Dream chat template markers that skip_special_tokens misses
+    response = response.split("<|im_end|>")[0].strip()
     return response
 
 
@@ -769,6 +829,10 @@ def main():
                 "remasking": args.remasking,
                 "alpha0": args.alpha0,
                 "random_rate": args.random_rate,
+                "c": args.c,
+                "m": args.m,
+                "ratio": args.ratio,
+                "spd_k": args.spd_k,
                 "sp_mode": args.sp_mode,
                 "sp_hid_tail": sp_hid_tail,
                 "template_attack": bool(template_attack) if args.sp_mode == "hidden" else None,
