@@ -17,12 +17,14 @@ cd ~/Saftey_Critical_CW_code
 PYTHON=$(which python)
 MODEL_PATH="$HOME/Saftey_Critical_CW_code/hf_models/Dream-v0-Instruct-7B"
 OUTDIR="dream_results/sanity_check"
-mkdir -p "$OUTDIR"
+PROMPTDIR="dream_results/sanity_check/prompts"
+mkdir -p "$OUTDIR" "$PROMPTDIR"
 
 # Extract 1 prompt from each dataset
 $PYTHON -c "
 import json
 
+outdir = 'dream_results/sanity_check/prompts'
 datasets = {
     'dija':            'data/refined_prompt_data/harmbench_refined.json',
     'context_nesting': 'data/refined_prompt_data/harmbench_context_nesting_refined.json',
@@ -30,8 +32,8 @@ datasets = {
 }
 for name, path in datasets.items():
     data = json.load(open(path))
-    json.dump(data[4:5], open(f'/tmp/dream_sanity/{name}_prompt.json', 'w'), indent=2)
-    item = data[0]
+    json.dump(data[4:5], open(f'{outdir}/{name}_prompt.json', 'w'), indent=2)
+    item = data[4]
     vanilla = item.get('vanilla prompt') or item.get('goal') or ''
     print(f'[{name}] prompt: {vanilla[:100]}')
 "
@@ -43,7 +45,7 @@ echo "=============================================="
 $PYTHON models/jailbreakbench_dream.py \
     --model_path "${MODEL_PATH}" \
     --attack_method DIJA \
-    --attack_prompt "${OUTDIR}/dija_prompt.json" \
+    --attack_prompt "${PROMPTDIR}/dija_prompt.json" \
     --output_json "${OUTDIR}/dija_out.json" \
     --remasking off \
     --sp_mode off \
@@ -58,7 +60,7 @@ echo "=============================================="
 $PYTHON models/jailbreakbench_dream.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${OUTDIR}/context_nesting_prompt.json" \
+    --attack_prompt "${PROMPTDIR}/context_nesting_prompt.json" \
     --output_json "${OUTDIR}/context_nesting_out.json" \
     --remasking off \
     --sp_mode off \
@@ -73,7 +75,7 @@ echo "=============================================="
 $PYTHON models/jailbreakbench_dream.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${OUTDIR}/harmless_prompt.json" \
+    --attack_prompt "${PROMPTDIR}/harmless_prompt.json" \
     --output_json "${OUTDIR}/harmless_out.json" \
     --remasking off \
     --sp_mode off \
@@ -88,7 +90,7 @@ echo "=============================================="
 $PYTHON models/jailbreakbench_dream.py \
     --model_path "${MODEL_PATH}" \
     --attack_method zeroshot \
-    --attack_prompt "${OUTDIR}/context_nesting_prompt.json" \
+    --attack_prompt "${PROMPTDIR}/context_nesting_prompt.json" \
     --output_json "${OUTDIR}/context_nesting_spd_out.json" \
     --remasking low_confidence \
     --spd_k 5 \
