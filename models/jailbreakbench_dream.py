@@ -484,6 +484,7 @@ def cosine_distance_vec(a: torch.Tensor, b: torch.Tensor) -> float:
 
 def dream_spd_diffusion_generate(
     model,
+    tokenizer,
     input_ids: torch.Tensor,
     attention_mask: torch.Tensor,
     spd_k: int,
@@ -529,9 +530,8 @@ def dream_spd_diffusion_generate(
         current_attn = torch.ones(
             current_ids.shape, dtype=attention_mask.dtype, device=current_ids.device
         )
-        if debug_print:
-            new_tok_id = current_ids[0, -1].item()
-            logging.info(f"[SPD-diffusion step {step_i}] token_id={new_tok_id}")
+        tok_str = tokenizer.decode([current_ids[0, -1].item()])
+        print(f"[SPD] token {step_i + 1}/{spd_k}: {repr(tok_str)}", flush=True)
 
     # --- parallel phase ---
     remaining = gen_length - spd_k
@@ -588,11 +588,13 @@ def generate_response(
             protected_index[:, :sys_len] = True
         except Exception:
             protected_index = None
-    # Common prefix length (token-wise comparison)
-    matching_count = min(
-        sum(a.item() == b.item() for a, b in zip(vanilla_ids[0], input_ids[0])),
-        len(vanilla_ids[0]),
-    )
+    # Longest common prefix length — stop at first mismatch so we land exactly
+    # at the first mask in the DIJA prompt, not past it due to coincidental matches.
+    matching_count = 0
+    for a, b in zip(vanilla_ids[0], input_ids[0]):
+        if a.item() != b.item():
+            break
+        matching_count += 1
     # ====== Custom AR alignment: if the input contains NO <mask>, append gen_length <|mask|> at the tail ======
     # Only needed for custom AR paths — native diffusion_generate (remasking=off) handles max_new_tokens
     # internally and must NOT receive a pre-appended mask tail (it would fill those AND generate more,
@@ -680,6 +682,7 @@ def generate_response(
                 logging.info(f"[Dream-Path] SPD diffusion_generate (spd_k={args.spd_k})")
             output_ids = dream_spd_diffusion_generate(
                 model=model,
+                tokenizer=tokenizer,
                 input_ids=input_ids,
                 attention_mask=attention_mask,
                 spd_k=args.spd_k,

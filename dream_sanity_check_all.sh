@@ -64,7 +64,7 @@ $PYTHON models/jailbreakbench_dream.py \
     --output_json "${OUTDIR}/context_nesting_out.json" \
     --remasking off \
     --sp_mode off \
-    --steps 32 \
+    --steps 64 \
     --gen_length 128 \
     --temperature 0.5 \
     --mask_counts 0
@@ -94,13 +94,14 @@ $PYTHON models/jailbreakbench_dream.py \
     --attack_method zeroshot \
     --attack_prompt "${PROMPTDIR}/context_nesting_prompt.json" \
     --output_json "${OUTDIR}/context_nesting_spd_out.json" \
-    --remasking low_confidence \
+    --remasking off \
     --spd_k 5 \
     --sp_mode off \
     --steps 64 \
     --gen_length 128 \
     --temperature 0.5 \
-    --mask_counts 0
+    --mask_counts 0 \
+    --debug_print
 
 echo ""
 echo "=============================================="
@@ -110,10 +111,10 @@ $PYTHON - <<'EOF'
 import json, os
 
 cases = {
-    "DIJA":                    "/tmp/dream_sanity/dija_out.json",
-    "Context Nesting":         "/tmp/dream_sanity/context_nesting_out.json",
-    "Harmless":                "/tmp/dream_sanity/harmless_out.json",
-    "Context Nesting + SPD":   "/tmp/dream_sanity/context_nesting_spd_out.json",
+    "DIJA":                    "dream_results/sanity_check/dija_out.json",
+    "Context Nesting":         "dream_results/sanity_check/context_nesting_out.json",
+    "Harmless":                "dream_results/sanity_check/harmless_out.json",
+    "Context Nesting + SPD":   "dream_results/sanity_check/context_nesting_spd_out.json",
 }
 
 for name, path in cases.items():
