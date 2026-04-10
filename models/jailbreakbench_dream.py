@@ -687,7 +687,11 @@ def generate_response(
         start = int(first_mask[0].item()) if first_mask.numel() > 0 else matching_count
         response = tokenizer.batch_decode(output_ids[:, start:], skip_special_tokens=True)[0]
     # Strip Dream chat template markers that skip_special_tokens misses
+    raw_before_split = response
     response = response.split("<|im_end|>")[0].strip()
+    if getattr(args, "debug_print", False):
+        logging.info(f"[Decode] raw (before split): {repr(raw_before_split[:300])}")
+        logging.info(f"[Decode] final response:     {repr(response[:300])}")
     return response
 
 
