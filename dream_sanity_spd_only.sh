@@ -24,7 +24,7 @@ $PYTHON models/jailbreakbench_dream.py \
     --attack_method zeroshot \
     --attack_prompt "${PROMPTDIR}/context_nesting_prompt.json" \
     --output_json "${OUTDIR}/context_nesting_spd_out.json" \
-    --remasking low_confidence \
+    --remasking off \
     --spd_k 5 \
     --sp_mode off \
     --steps 64 \

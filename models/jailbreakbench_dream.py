@@ -480,6 +480,79 @@ def cosine_distance_vec(a: torch.Tensor, b: torch.Tensor) -> float:
     return float(1.0 - torch.dot(a, b).item())
 
 
+# ===================== SPD via native diffusion_generate =====================
+
+def dream_spd_diffusion_generate(
+    model,
+    input_ids: torch.Tensor,
+    attention_mask: torch.Tensor,
+    spd_k: int,
+    gen_length: int,
+    steps: int,
+    temperature: float,
+    top_p: float,
+    debug_print: bool = False,
+) -> torch.Tensor:
+    """
+    Sequential Prefix Demasking using Dream's native diffusion_generate.
+
+    For context nesting (and any case where masks are NOT embedded inside the
+    user turn), our custom AR loop produces poor output because Dream's model
+    was not trained in that generation style.  Instead we use Dream's own
+    diffusion_generate for both phases:
+
+      SPD prefix  (first spd_k tokens): generate one token at a time via
+                  diffusion_generate(max_new_tokens=1, steps=1).  Each call
+                  uses Dream's proper denoising so predictions are high-quality.
+      Parallel phase (remaining gen_length-spd_k tokens): one standard
+                  diffusion_generate call.
+
+    Decode: output_ids is longer than the original input_ids by gen_length
+    tokens, so the caller decodes from input_ids.shape[1] as usual.
+    """
+    current_ids = input_ids
+    current_attn = attention_mask
+
+    # --- sequential prefix ---
+    for step_i in range(spd_k):
+        gen_out = model.diffusion_generate(
+            current_ids,
+            attention_mask=current_attn,
+            max_new_tokens=1,
+            output_history=False,
+            return_dict_in_generate=True,
+            steps=1,          # only 1 mask position, 1 step is sufficient
+            temperature=temperature,
+            top_p=top_p,
+        )
+        current_ids = gen_out.sequences          # [B, prev_len + 1]
+        current_attn = torch.ones(
+            current_ids.shape, dtype=attention_mask.dtype, device=current_ids.device
+        )
+        if debug_print:
+            new_tok_id = current_ids[0, -1].item()
+            logging.info(f"[SPD-diffusion step {step_i}] token_id={new_tok_id}")
+
+    # --- parallel phase ---
+    remaining = gen_length - spd_k
+    if remaining > 0:
+        gen_out = model.diffusion_generate(
+            current_ids,
+            attention_mask=current_attn,
+            max_new_tokens=remaining,
+            output_history=False,
+            return_dict_in_generate=True,
+            steps=steps,
+            temperature=temperature,
+            top_p=top_p,
+        )
+        output_ids = gen_out.sequences
+    else:
+        output_ids = current_ids
+
+    return output_ids
+
+
 # ===================== Generate response (decoding and self-correction are independent) =====================
 
 def generate_response(
@@ -597,21 +670,39 @@ def generate_response(
             exclude_mask_positions=protected_index,
         )
 
-    # ======= Native generate (no AR) =======
+    # ======= Native generate (no AR) — with optional SPD prefix =======
     elif args.remasking == "off":
-        if args.debug_print:
-            logging.info("[Dream-Path] native diffusion_generate (no AR decoding)")
-        gen_out = model.diffusion_generate(
-            input_ids,
-            attention_mask=attention_mask,
-            max_new_tokens=args.gen_length,
-            output_history=False,
-            return_dict_in_generate=True,
-            steps=args.steps,
-            temperature=args.temperature,
-            top_p=args.top_p,
-        )
-        output_ids = gen_out.sequences
+        if args.spd_k > 0:
+            # SPD via diffusion_generate: sequential prefix then parallel phase.
+            # Used for context nesting where our custom AR produces poor output
+            # because Dream wasn't trained in LLaDA-style mask-filling mode.
+            if args.debug_print:
+                logging.info(f"[Dream-Path] SPD diffusion_generate (spd_k={args.spd_k})")
+            output_ids = dream_spd_diffusion_generate(
+                model=model,
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                spd_k=args.spd_k,
+                gen_length=args.gen_length,
+                steps=args.steps,
+                temperature=args.temperature,
+                top_p=args.top_p,
+                debug_print=args.debug_print,
+            )
+        else:
+            if args.debug_print:
+                logging.info("[Dream-Path] native diffusion_generate (no AR decoding)")
+            gen_out = model.diffusion_generate(
+                input_ids,
+                attention_mask=attention_mask,
+                max_new_tokens=args.gen_length,
+                output_history=False,
+                return_dict_in_generate=True,
+                steps=args.steps,
+                temperature=args.temperature,
+                top_p=args.top_p,
+            )
+            output_ids = gen_out.sequences
 
     # ======= Custom AR decoding (non-PAD) =======
     else:
