@@ -250,10 +250,21 @@ def dream_adaptive_generate(
         logits = out.logits  # [B,L,V]
 
         logits_noised = add_gumbel_noise(logits, temperature)
-        x0 = torch.argmax(logits_noised, dim=-1)
+        x0_raw = torch.argmax(logits_noised, dim=-1)
+
+        # Dream uses a shift operation (paper §4.1): logits[i] predicts position i+1.
+        # To fill position j we need the prediction from logits[j-1].
+        # Shift x0 right by 1: x0[j] = argmax(logits[j-1]) = actual prediction for position j.
+        x0 = torch.zeros_like(x0_raw)
+        x0[:, 1:] = x0_raw[:, :-1]
+        x0[:, 0]  = x0_raw[:, 0]   # position 0 is never a mask; fallback only
 
         probs = F.softmax(logits, dim=-1)
-        model_conf = torch.gather(probs, dim=-1, index=x0.unsqueeze(-1)).squeeze(-1)
+        # Confidence also needs to be shifted: conf at position j = prob(x0_raw[j-1]) at logits[j-1]
+        model_conf_raw = torch.gather(probs, dim=-1, index=x0_raw.unsqueeze(-1)).squeeze(-1)
+        model_conf = torch.zeros_like(model_conf_raw)
+        model_conf[:, 1:] = model_conf_raw[:, :-1]
+        model_conf[:, 0]  = model_conf_raw[:, 0]
         R = torch.rand((B, L), device=device)
 
         alpha = None  # for debug logging
@@ -293,7 +304,7 @@ def dream_adaptive_generate(
                 masked_positions = current_mask[b].nonzero(as_tuple=False).squeeze(1)
                 if masked_positions.numel() > 0:
                     pos = masked_positions[0]
-                    x[b, pos] = x0[b, pos]
+                    x[b, pos] = x0[b, pos]  # x0 already shifted: x0[pos] = prediction for pos
                     if debug_print:
                         tok = tokenizer.decode([x0[b, pos].item()])
                         logging.info(f"[SPD step {i}] batch={b} pos={int(pos)} token='{tok}'")
